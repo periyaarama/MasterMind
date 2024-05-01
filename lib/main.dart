@@ -9,14 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //   apiKey: "AIzaSyBhvBPDv5I73uObRrcK_mEz5zdcmvZEQg0",
-  //   authDomain: "readio-mm.firebaseapp.com",
-  //   projectId: "readio-mm",
-  //   messagingSenderId: "547451365319",
-  //   appId: "1:547451365319:web:116382adbee631073e9be2",
-  // ));
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   ThemeHelper().changeTheme('primary');
   runApp(const MyApp());
