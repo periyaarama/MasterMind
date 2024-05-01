@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_form_field.dart';
+//import 'package:master_mind/core/utils/image_constant.dart';
+
 
 // ignore_for_file: must_be_immutable
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
 
+  const SignUpScreen({Key? key}) : super(key: key);
+
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+  
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController nameEditTextController = TextEditingController();
 
   TextEditingController emailEditTextController = TextEditingController();
@@ -16,6 +24,8 @@ class SignUpScreen extends StatelessWidget {
   final Auth auth = Auth();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -185,25 +195,34 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
+/// Section Widget
   Widget _buildPasswordEditText(BuildContext context) {
     return CustomTextFormField(
       controller: passwordEditTextController,
       hintText: "Password",
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
-      suffix: Container(
-        margin: EdgeInsets.fromLTRB(30.h, 12.v, 16.h, 13.v),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgEye,
-          height: 24.adaptSize,
-          width: 24.adaptSize,
+      obscureText: !isPasswordVisible, // Toggle password visibility based on this variable
+      suffix: GestureDetector(
+        onTap: () {
+          // Toggle the visibility of the password when the eye icon is tapped
+          setState(() {
+            isPasswordVisible = !isPasswordVisible;
+          });
+        },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(30.h, 12.v, 16.h, 13.v),
+          child: CustomImageView(
+            // Change the eye icon based on the visibility state
+             imagePath: isPasswordVisible ? ImageConstant.imgEyeOff : ImageConstant.imgEye, // Uncomment this line if using images
+            height: 24.adaptSize,
+            width: 24.adaptSize,
+          ),
         ),
       ),
       suffixConstraints: BoxConstraints(
         maxHeight: 49.v,
       ),
-      obscureText: true,
       contentPadding: EdgeInsets.only(
         left: 16.h,
         top: 16.v,
@@ -211,6 +230,7 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
+
 
   /// Section Widget
   Widget _buildCreateAccountButton(BuildContext context) {
