@@ -70,7 +70,9 @@ class ImageConstant {
 
   static String imgLogInEmail = '$imagePath/img_log_in_email.png';
 
-  static String imgEye = '$imagePath/img_eye.svg';
+  static String imgEye = '$imagePath/eye-off.svg';
+
+  static String imgEyeOff = '$imagePath/eye-empty.svg';
 
   // My Library images
   static String imgUilBookmarkOnprimary =
