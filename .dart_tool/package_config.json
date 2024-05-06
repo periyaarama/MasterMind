@@ -56,6 +56,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cloud_firestore",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cloud_firestore-4.17.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cloud_firestore_platform_interface-6.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cloud_firestore_web-3.12.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/collection-1.18.0",
       "packageUri": "lib/",
@@ -63,15 +81,15 @@
     },
     {
       "name": "connectivity_plus",
-      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/connectivity_plus-5.0.2",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/connectivity_plus-6.0.3",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.2"
     },
     {
       "name": "connectivity_plus_platform_interface",
-      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-1.2.4",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.18"
     },
     {
       "name": "crypto",
@@ -210,12 +228,6 @@
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/intl-0.18.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "js",
-      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/js-0.6.7",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
     },
     {
       "name": "leak_tracker",
@@ -482,7 +494,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-05-05T11:06:56.718193Z",
+  "generated": "2024-05-06T04:26:36.747171Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

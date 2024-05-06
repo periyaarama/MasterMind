@@ -6,15 +6,11 @@ import '../widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
-
-///
-///checking neew commit
-///
 
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController nameEditTextController = TextEditingController();
@@ -245,6 +241,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Get the email and password from the text controllers
         String email = emailEditTextController.text.trim();
         String password = passwordEditTextController.text.trim();
+        String name = nameEditTextController.text.trim();
 
         // Validate form fields (e.g., check for empty values)
         if (_formKey.currentState?.validate() ?? false) {
@@ -252,8 +249,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           User? user = await auth.signUp(email, password);
 
           if (user != null) {
-            // Sign up successful, navigate to the next screen or show a success message
-            Navigator.pushNamed(context, AppRoutes.logInEmailScreen);
+            // Sign up successful, navigate to LogInEmailScreen and pass name and email
+            Navigator.pushNamed(
+              context,
+              AppRoutes.logInEmailScreen,
+              arguments: {
+                'name': name,
+                'email': email,
+              },
+            );
           } else {
             // Sign up failed, show an error message
             ScaffoldMessenger.of(context).showSnackBar(

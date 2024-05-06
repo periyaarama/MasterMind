@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:master_mind/screens/home_screen_container_screen.dart';
 import 'package:master_mind/screens/sign_up_screen.dart';
 import '../core/app_export.dart';
 import '../theme/custom_button_style.dart';

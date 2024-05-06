@@ -3,6 +3,7 @@ import 'package:master_mind/screens/account_screen.dart';
 import 'package:master_mind/screens/book_details_screen/book_details_screen.dart';
 import 'package:master_mind/screens/book_details_seller_screen/book_details_seller_screen.dart';
 import 'package:master_mind/screens/explore_scrolled_screen/explore_scrolled_screen.dart';
+import 'package:master_mind/screens/forgot_password_screen.dart';
 import 'package:master_mind/screens/home_screen_container_screen.dart';
 import 'package:master_mind/screens/profile_details_screen.dart';
 import 'package:master_mind/screens/seller_details_screen/seller_details_screen.dart';
@@ -22,6 +23,8 @@ class AppRoutes {
   static const String appNavigationScreen = '/app_navigation_screen';
 
   static const String initialRoute = '/initialRoute';
+
+  static const String forgotPasswordScreen = '/forgot_password_screen';
 
   static const String homeScreenContainerScreen =
       '/home_screen_container_screen';
@@ -43,11 +46,11 @@ class AppRoutes {
   static const String profileDetailsScreen = '/profile_details_screen';
 
   static Map<String, WidgetBuilder> routes = {
-    signUpScreen: (context) => SignUpScreen(),
+    signUpScreen: (context) => const SignUpScreen(),
     logInEmailScreen: (context) => LogInEmailScreen(),
-    logInEmailOneScreen: (context) => LogInEmailOneScreen(),
+    logInEmailOneScreen: (context) => const LogInEmailOneScreen(),
     appNavigationScreen: (context) => const AppNavigationScreen(),
-    initialRoute: (context) => LogInEmailOneScreen(),
+    initialRoute: (context) => const LogInEmailOneScreen(),
     homeScreenContainerScreen: (context) => HomeScreenContainerScreen(),
     bookDetailsScreen: (context) => BookDetailsScreen(),
     exploreScrolledScreen: (context) => ExploreScrolledScreen(),
@@ -55,5 +58,6 @@ class AppRoutes {
     bookDetailsSellerScreen: (context) => BookDetailsSellerScreen(),
     accountScreen: (context) => AccountScreen(),
     profileDetailsScreen: (context) => ProfileDetailsScreen(),
+    forgotPasswordScreen: (context) => const ForgotPasswordScreen()
   };
 }

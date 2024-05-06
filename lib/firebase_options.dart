@@ -30,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -47,29 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBhvBPDv5I73uObRrcK_mEz5zdcmvZEQg0',
-    appId: '1:547451365319:web:116382adbee631073e9be2',
-    messagingSenderId: '547451365319',
-    projectId: 'readio-mm',
-    authDomain: 'readio-mm.firebaseapp.com',
-    storageBucket: 'readio-mm.appspot.com',
-    measurementId: 'G-GJQZ8VJ7HV',
+    apiKey: 'AIzaSyDhOITuwItE0c_YYsfq6bMriQuqqWJa2S0',
+    appId: '1:895800313585:web:27f15cd868b5fe697b4b50',
+    messagingSenderId: '895800313585',
+    projectId: 'readio-7e0ed',
+    authDomain: 'readio-7e0ed.firebaseapp.com',
+    storageBucket: 'readio-7e0ed.appspot.com',
+    measurementId: 'G-R174E5N6TC',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBwCcv0zCyzJYo3UMstYyVfSwCYckcn_0s',
-    appId: '1:547451365319:android:f6588b7f24a0cbac3e9be2',
-    messagingSenderId: '547451365319',
-    projectId: 'readio-mm',
-    storageBucket: 'readio-mm.appspot.com',
+    apiKey: 'AIzaSyBnezLf5JLi--a_V_e1xsfkqig3GoDEYMM',
+    appId: '1:895800313585:android:d237098e641fe3377b4b50',
+    messagingSenderId: '895800313585',
+    projectId: 'readio-7e0ed',
+    storageBucket: 'readio-7e0ed.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAy31eCjuNgeqg2W_yBE2vlADtf95TAjVg',
-    appId: '1:547451365319:ios:526ee472a2a4b9493e9be2',
-    messagingSenderId: '547451365319',
-    projectId: 'readio-mm',
-    storageBucket: 'readio-mm.appspot.com',
+    apiKey: 'AIzaSyBUpGEBTXylZhMl2s45TnJzUYmBFJCMcho',
+    appId: '1:895800313585:ios:e55ae26a9c7927797b4b50',
+    messagingSenderId: '895800313585',
+    projectId: 'readio-7e0ed',
+    storageBucket: 'readio-7e0ed.appspot.com',
     iosBundleId: 'com.example.masterMind',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDhOITuwItE0c_YYsfq6bMriQuqqWJa2S0',
+    appId: '1:895800313585:web:b5ab33f3927132d77b4b50',
+    messagingSenderId: '895800313585',
+    projectId: 'readio-7e0ed',
+    authDomain: 'readio-7e0ed.firebaseapp.com',
+    storageBucket: 'readio-7e0ed.appspot.com',
+    measurementId: 'G-86NLKJ6P0Z',
+  );
+
 }

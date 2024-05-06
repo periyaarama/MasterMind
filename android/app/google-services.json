@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "547451365319",
-    "project_id": "readio-mm",
-    "storage_bucket": "readio-mm.appspot.com"
+    "project_number": "895800313585",
+    "project_id": "readio-7e0ed",
+    "storage_bucket": "readio-7e0ed.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:547451365319:android:f6588b7f24a0cbac3e9be2",
+        "mobilesdk_app_id": "1:895800313585:android:d237098e641fe3377b4b50",
         "android_client_info": {
           "package_name": "com.example.master_mind"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBwCcv0zCyzJYo3UMstYyVfSwCYckcn_0s"
+          "current_key": "AIzaSyBnezLf5JLi--a_V_e1xsfkqig3GoDEYMM"
         }
       ],
       "services": {
