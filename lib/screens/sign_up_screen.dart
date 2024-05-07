@@ -4,16 +4,14 @@ import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_form_field.dart';
 //import 'package:master_mind/core/utils/image_constant.dart';
 
-
 // ignore_for_file: must_be_immutable
 class SignUpScreen extends StatefulWidget {
-
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
-  
+
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController nameEditTextController = TextEditingController();
 
@@ -25,7 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-bool isPasswordVisible = false;
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -195,14 +193,15 @@ bool isPasswordVisible = false;
     );
   }
 
-/// Section Widget
+  /// Section Widget
   Widget _buildPasswordEditText(BuildContext context) {
     return CustomTextFormField(
       controller: passwordEditTextController,
       hintText: "Password",
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
-      obscureText: !isPasswordVisible, // Toggle password visibility based on this variable
+      obscureText:
+          !isPasswordVisible, // Toggle password visibility based on this variable
       suffix: GestureDetector(
         onTap: () {
           // Toggle the visibility of the password when the eye icon is tapped
@@ -214,7 +213,9 @@ bool isPasswordVisible = false;
           margin: EdgeInsets.fromLTRB(30.h, 12.v, 16.h, 13.v),
           child: CustomImageView(
             // Change the eye icon based on the visibility state
-             imagePath: isPasswordVisible ? ImageConstant.imgEyeOff : ImageConstant.imgEye, // Uncomment this line if using images
+            imagePath: isPasswordVisible
+                ? ImageConstant.imgEyeOff
+                : ImageConstant.imgEye, // Uncomment this line if using images
             height: 24.adaptSize,
             width: 24.adaptSize,
           ),
@@ -231,7 +232,6 @@ bool isPasswordVisible = false;
     );
   }
 
-
   /// Section Widget
   Widget _buildCreateAccountButton(BuildContext context) {
     return CustomElevatedButton(
@@ -241,6 +241,7 @@ bool isPasswordVisible = false;
         // Get the email and password from the text controllers
         String email = emailEditTextController.text.trim();
         String password = passwordEditTextController.text.trim();
+        String name = nameEditTextController.text.trim();
 
         // Validate form fields (e.g., check for empty values)
         if (_formKey.currentState?.validate() ?? false) {
@@ -248,8 +249,15 @@ bool isPasswordVisible = false;
           User? user = await auth.signUp(email, password);
 
           if (user != null) {
-            // Sign up successful, navigate to the next screen or show a success message
-            Navigator.pushNamed(context, AppRoutes.logInEmailScreen);
+            // Sign up successful, navigate to LogInEmailScreen and pass name and email
+            Navigator.pushNamed(
+              context,
+              AppRoutes.logInEmailScreen,
+              arguments: {
+                'name': name,
+                'email': email,
+              },
+            );
           } else {
             // Sign up failed, show an error message
             ScaffoldMessenger.of(context).showSnackBar(

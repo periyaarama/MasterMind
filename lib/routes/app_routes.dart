@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/account_screen.dart';
+import 'package:master_mind/screens/auth_page.dart';
 import 'package:master_mind/screens/book_details_screen/book_details_screen.dart';
 import 'package:master_mind/screens/book_details_seller_screen/book_details_seller_screen.dart';
 import 'package:master_mind/screens/explore_scrolled_screen/explore_scrolled_screen.dart';
+import 'package:master_mind/screens/forgot_password_screen.dart';
 import 'package:master_mind/screens/home_screen_container_screen.dart';
 import 'package:master_mind/screens/profile_details_screen.dart';
 import 'package:master_mind/screens/seller_details_screen/seller_details_screen.dart';
@@ -13,6 +15,8 @@ import '../screens/sign_up_screen.dart';
 
 // ignore_for_file: must_be_immutable
 class AppRoutes {
+  static const String authPage = '/auth_page';
+
   static const String signUpScreen = '/sign_up_screen';
 
   static const String logInEmailScreen = '/log_in_email_screen';
@@ -22,6 +26,8 @@ class AppRoutes {
   static const String appNavigationScreen = '/app_navigation_screen';
 
   static const String initialRoute = '/initialRoute';
+
+  static const String forgotPasswordScreen = '/forgot_password_screen';
 
   static const String homeScreenContainerScreen =
       '/home_screen_container_screen';
@@ -43,17 +49,19 @@ class AppRoutes {
   static const String profileDetailsScreen = '/profile_details_screen';
 
   static Map<String, WidgetBuilder> routes = {
-    signUpScreen: (context) => SignUpScreen(),
-    logInEmailScreen: (context) => LogInEmailScreen(),
-    logInEmailOneScreen: (context) => LogInEmailOneScreen(),
+    initialRoute: (context) => const AuthPage(),
+    authPage: (context) => const AuthPage(),
+    signUpScreen: (context) => const SignUpScreen(),
+    logInEmailScreen: (context) => const LogInEmailScreen(),
+    logInEmailOneScreen: (context) => const LogInEmailOneScreen(),
     appNavigationScreen: (context) => const AppNavigationScreen(),
-    initialRoute: (context) => LogInEmailOneScreen(),
     homeScreenContainerScreen: (context) => HomeScreenContainerScreen(),
     bookDetailsScreen: (context) => BookDetailsScreen(),
     exploreScrolledScreen: (context) => ExploreScrolledScreen(),
     sellerDetailsScreen: (context) => SellerDetailsScreen(),
     bookDetailsSellerScreen: (context) => BookDetailsSellerScreen(),
     accountScreen: (context) => AccountScreen(),
-    profileDetailsScreen: (context) => ProfileDetailsScreen(),
+    profileDetailsScreen: (context) => const ProfileDetailsScreen(),
+    forgotPasswordScreen: (context) => const ForgotPasswordScreen()
   };
 }

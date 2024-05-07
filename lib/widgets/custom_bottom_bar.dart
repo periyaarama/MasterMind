@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import '../core/app_export.dart';
 
 // ignore: constant_identifier_names
-enum BottomBarEnum { Home, Explore, Library, bookDetailsScreen, accountScreen }
+enum BottomBarEnum {
+  Home,
+  Explore,
+  Library,
+  bookDetailsScreen,
+  accountScreen,
+  logInEmailOneScreen,
+  logOut
+}
 
 // ignore_for_file: must_be_immutable
 class CustomBottomBar extends StatefulWidget {

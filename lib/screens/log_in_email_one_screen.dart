@@ -4,9 +4,14 @@ import '../theme/custom_button_style.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_form_field.dart'; // ignore_for_file: must_be_immutable
 
-class LogInEmailOneScreen extends StatelessWidget {
-  LogInEmailOneScreen({super.key});
+class LogInEmailOneScreen extends StatefulWidget {
+  const LogInEmailOneScreen({super.key});
 
+  @override
+  State<LogInEmailOneScreen> createState() => _LogInEmailOneScreenState();
+}
+
+class _LogInEmailOneScreenState extends State<LogInEmailOneScreen> {
   TextEditingController emailFieldController = TextEditingController();
 
   TextEditingController passwordFieldController = TextEditingController();
@@ -14,6 +19,15 @@ class LogInEmailOneScreen extends StatelessWidget {
   final Auth auth = Auth();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool isPasswordVisible = false;
+
+  @override
+  void dispose() {
+    emailFieldController.dispose();
+    passwordFieldController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +93,15 @@ class LogInEmailOneScreen extends StatelessWidget {
                           children: [
                             _buildContinueButton(context),
                             SizedBox(height: 16.v),
-                            Text(
-                              "Forgot password?",
-                              style: CustomTextStyles.titleSmallPrimary,
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(AppRoutes.forgotPasswordScreen);
+                              },
+                              child: Text(
+                                "Forgot password?",
+                                style: CustomTextStyles.titleSmallPrimary,
+                              ),
                             ),
                             SizedBox(height: 31.v),
                             _buildRowVectorFour(context),
@@ -153,18 +173,30 @@ class LogInEmailOneScreen extends StatelessWidget {
         hintText: "Password",
         textInputAction: TextInputAction.done,
         textInputType: TextInputType.visiblePassword,
-        suffix: Container(
-          margin: EdgeInsets.fromLTRB(30.h, 12.v, 16.h, 13.v),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgEye,
-            height: 24.adaptSize,
-            width: 24.adaptSize,
+        obscureText:
+            !isPasswordVisible, // Toggle password visibility based on this variable
+        suffix: GestureDetector(
+          onTap: () {
+            // Toggle the visibility of the password when the eye icon is tapped
+            setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.fromLTRB(30.h, 12.v, 16.h, 13.v),
+            child: CustomImageView(
+              // Change the eye icon based on the visibility state
+              imagePath: isPasswordVisible
+                  ? ImageConstant.imgEyeOff
+                  : ImageConstant.imgEye, // Uncomment this line if using images
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
           ),
         ),
         suffixConstraints: BoxConstraints(
           maxHeight: 49.v,
         ),
-        obscureText: true,
         contentPadding: EdgeInsets.only(
           left: 16.h,
           top: 16.v,
@@ -177,30 +209,77 @@ class LogInEmailOneScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildContinueButton(BuildContext context) {
     return CustomElevatedButton(
-      text: "Continue",
-      buttonTextStyle: CustomTextStyles.titleSmallPrimaryContainer,
-      onPressed: () async {
-        // Validate the form
-        if (_formKey.currentState?.validate() ?? false) {
-          // Get the email and password from the text controllers
-          String email = emailFieldController.text.trim();
-          String password = passwordFieldController.text.trim();
+        text: "Continue",
+        buttonTextStyle: CustomTextStyles.titleSmallPrimaryContainer,
+        onPressed: () async {
+          // show loading circle
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
 
-          // Call the login function from Auth class
-          User? user = await auth.login(email, password);
+          // Validate the form
+          if (_formKey.currentState?.validate() ?? false) {
+            // Get the email and password from the text controllers
+            String email = emailFieldController.text.trim();
+            String password = passwordFieldController.text.trim();
 
-          if (user != null) {
-            // Login successful, navigate to the next screen
-            Navigator.pushNamed(context, AppRoutes.homeScreenContainerScreen);
-          } else {
-            // Login failed, show an error message
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Login failed. Please try again.'),
-              ),
-            );
+            // Call the login function from Auth class
+            User? user = await auth.login(email, password);
+
+            if (user != null) {
+              // pop the loading circle
+              Navigator.of(context, rootNavigator: true).pop();
+            } else {
+              // pop the loading circle
+              Navigator.of(context, rootNavigator: true).pop();
+              // Login failed, show an error message
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Login failed. Please try again.'),
+                ),
+              );
+            }
           }
-        }
+        });
+  }
+
+  // wrong email message popup
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Email',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // wrong password message popup
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Password',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
       },
     );
   }
