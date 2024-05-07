@@ -8,7 +8,7 @@ import '../widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
 class LogInEmailScreen extends StatefulWidget {
-  LogInEmailScreen({super.key});
+  const LogInEmailScreen({super.key});
 
   @override
   State<LogInEmailScreen> createState() => _LogInEmailScreenState();
@@ -269,6 +269,7 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       final bio = bioController.text;
       final contactNumber = contactController.text;
       final username = usernameController.text;
+      final email = emailController.text;
 
       // Create a data map with the collected data
       final data = {
@@ -277,6 +278,7 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
         'bio': bio,
         'contactNumber': contactNumber,
         'username': username,
+        'email': email
       };
 
       try {

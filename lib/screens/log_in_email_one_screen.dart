@@ -23,6 +23,13 @@ class _LogInEmailOneScreenState extends State<LogInEmailOneScreen> {
   bool isPasswordVisible = false;
 
   @override
+  void dispose() {
+    emailFieldController.dispose();
+    passwordFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -202,30 +209,77 @@ class _LogInEmailOneScreenState extends State<LogInEmailOneScreen> {
   /// Section Widget
   Widget _buildContinueButton(BuildContext context) {
     return CustomElevatedButton(
-      text: "Continue",
-      buttonTextStyle: CustomTextStyles.titleSmallPrimaryContainer,
-      onPressed: () async {
-        // Validate the form
-        if (_formKey.currentState?.validate() ?? false) {
-          // Get the email and password from the text controllers
-          String email = emailFieldController.text.trim();
-          String password = passwordFieldController.text.trim();
+        text: "Continue",
+        buttonTextStyle: CustomTextStyles.titleSmallPrimaryContainer,
+        onPressed: () async {
+          // show loading circle
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
 
-          // Call the login function from Auth class
-          User? user = await auth.login(email, password);
+          // Validate the form
+          if (_formKey.currentState?.validate() ?? false) {
+            // Get the email and password from the text controllers
+            String email = emailFieldController.text.trim();
+            String password = passwordFieldController.text.trim();
 
-          if (user != null) {
-            // Login successful, navigate to the next screen
-            Navigator.pushNamed(context, AppRoutes.homeScreenContainerScreen);
-          } else {
-            // Login failed, show an error message
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Login failed. Please try again.'),
-              ),
-            );
+            // Call the login function from Auth class
+            User? user = await auth.login(email, password);
+
+            if (user != null) {
+              // pop the loading circle
+              Navigator.of(context, rootNavigator: true).pop();
+            } else {
+              // pop the loading circle
+              Navigator.of(context, rootNavigator: true).pop();
+              // Login failed, show an error message
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Login failed. Please try again.'),
+                ),
+              );
+            }
           }
-        }
+        });
+  }
+
+  // wrong email message popup
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Email',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // wrong password message popup
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Password',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
       },
     );
   }

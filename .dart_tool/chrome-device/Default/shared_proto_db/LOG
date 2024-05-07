@@ -1,5 +1,16 @@
-2024/05/06-14:22:36.952 5798 Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.eb2b02c8\flutter_tools_chrome_device.c8507634\Default\shared_proto_db/MANIFEST-000001
-2024/05/06-14:22:36.953 5798 Recovering log #7
-2024/05/06-14:22:36.954 5798 Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.eb2b02c8\flutter_tools_chrome_device.c8507634\Default\shared_proto_db/000007.log 
-2024/05/06-14:22:36.955 5798 Delete type=0 #3
-2024/05/06-14:22:36.955 5798 Delete type=0 #4
+2024/05/07-21:59:09.512 10e0 Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\shared_proto_db/MANIFEST-000001
+2024/05/07-21:59:09.513 10e0 Recovering log #19
+2024/05/07-21:59:09.515 10e0 Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\shared_proto_db/000019.log 
+2024/05/07-21:59:09.516 10e0 Delete type=0 #3
+2024/05/07-21:59:09.516 10e0 Delete type=0 #4
+2024/05/07-21:59:09.516 10e0 Delete type=0 #7
+2024/05/07-21:59:09.516 10e0 Delete type=2 #8
+2024/05/07-21:59:09.517 10e0 Delete type=0 #10
+2024/05/07-21:59:09.517 10e0 Delete type=2 #11
+2024/05/07-21:59:09.517 10e0 Delete type=0 #13
+2024/05/07-21:59:09.517 10e0 Delete type=2 #14
+2024/05/07-21:59:09.517 10e0 Delete type=0 #16
+2024/05/07-21:59:09.517 10e0 Delete type=2 #17
+2024/05/07-21:59:54.095 9ac Level-0 table #24: started
+2024/05/07-21:59:54.106 9ac Level-0 table #24: 138919 bytes OK
+2024/05/07-21:59:54.109 9ac Delete type=0 #19

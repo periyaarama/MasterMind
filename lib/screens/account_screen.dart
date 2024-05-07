@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:master_mind/screens/sign_up_screen.dart';
+import 'package:master_mind/widgets/app_bar/appbar_title.dart';
 import '../core/app_export.dart';
 import '../theme/custom_button_style.dart';
 //import '../widgets/app_bar/appbar_leading_image.dart';
-import '../widgets/app_bar/appbar_subtitle.dart';
 import '../widgets/app_bar/custom_app_bar.dart';
 import '../widgets/custom_bottom_bar.dart';
 import '../widgets/custom_elevated_button.dart';
@@ -12,152 +11,196 @@ import '../widgets/custom_outlined_button.dart';
 import 'home_screen_page/home_screen_page.dart';
 
 // ignore_for_file: must_be_immutable
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   AccountScreen({super.key});
 
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  final user = FirebaseAuth.instance.currentUser!;
+
+  final _auth = FirebaseAuth.instance;
+
+  final _firestoreManager = FirestoreManager();
+
+  bool _isLoading = false;
+
+  Future<void> _deleteUserProfile() async {
+    setState(() {
+      _isLoading = true;
+    });
+    // Get the signed-in user's email
+    final User? user = _auth.currentUser;
+    if (user != null) {
+      final String email = user.email ?? '';
+
+      try {
+        // Update the document in Firestore based on the user's email
+        await _firestoreManager.deleteDocumentFromCollection(
+          'users',
+          email,
+        );
+
+        // Sign out the user from Firebase Authentication
+        // await FirebaseAuth.instance.signOut();
+
+        // Delete the user from Firebase Authentication
+        await user.delete();
+        // Provide feedback to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile deleted successfully.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      } catch (e) {
+        // Handle errors and provide feedback to the user
+        print('Failed to delete profile: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to delete profile. Please try again.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      } finally {
+        // Set loading state to false
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(context),
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            children: [
-              SizedBox(height: 6.v),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 5.v),
-                    padding: EdgeInsets.symmetric(horizontal: 16.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Account",
-                          style: CustomTextStyles
-                              .headlineSmallAbhayaLibreExtraBoldOnPrimaryContainer,
-                        ),
-                        SizedBox(height: 4.v),
-                        SizedBox(
-                          width: 84.h,
-                          child: Divider(
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                        SizedBox(height: 23.v),
-                        _buildRowJohnDoe(context),
-                        SizedBox(height: 24.v),
-                        const Divider(),
-                        SizedBox(height: 23.v),
-                        _buildRowUilCreditCard(context,
-                            payment: "Profile details", onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(AppRoutes.profileDetailsScreen);
-                        }),
-                        _buildRowUilCreditCard(
-                          context,
-                          payment: "Payment",
-                        ),
-                        _buildRowUilCreditCard(
-                          context,
-                          payment: "Subscription",
-                        ),
-                        const Divider(),
-                        SizedBox(height: 23.v),
-                        _buildRowUilCreditCard(
-                          context,
-                          payment: "FAQs",
-                        ),
-                        _buildRowUilCreditCard(
-                          context,
-                          payment: "Logout",
-                          imageconstant: ImageConstant.imgUilSignout,
-                          onTap: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SignUpScreen()), // SignupScreen is your signup screen widget
-                              (route) =>
-                                  false, // This will remove all previous routes from the stack
-                            );
-                          },
-                        ),
-
-                        _buildRowUilCreditCard(context,
-                            payment: "Delete Account",
-                            imageconstant: ImageConstant.imgMdiDelete),
-                        // Row(
-                        //   children: [
-                        //     CustomIconButton(
-                        //       height: 40.adaptSize,
-                        //       width: 40.adaptSize,
-                        //       padding: EdgeInsets.all(9.h),
-                        //       child: CustomImageView(
-                        //         imagePath: ImageConstant.imgUilSignout,
-                        //       ),
-                        //     ),
-                        //     Padding(
-                        //       padding: EdgeInsets.only(
-                        //         left: 16.h,
-                        //         top: 12.v,
-                        //         bottom: 10.v,
-                        //       ),
-                        //       child: Text(
-                        //         "Logout",
-                        //         style: CustomTextStyles.titleSmallAlegreyaSans,
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     CustomIconButton(
-                        //       height: 42.adaptSize,
-                        //       width: 42.adaptSize,
-                        //       padding: EdgeInsets.all(9.h),
-                        //       child: CustomImageView(
-                        //         imagePath: ImageConstant.imgMdiDelete,
-                        //       ),
-                        //     ),
-                        //     Padding(
-                        //       padding: EdgeInsets.only(
-                        //         left: 16.h,
-                        //         top: 12.v,
-                        //         bottom: 12.v,
-                        //       ),
-                        //       child: Text(
-                        //         "Delete Account",
-                        //         style: CustomTextStyles.titleSmallAlegreyaSans,
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                        SizedBox(height: 46.v),
-                        CustomElevatedButton(
-                          height: 64.v,
-                          text: "Feel free to ask, We are here to help",
-                          leftIcon: Container(
-                            margin: EdgeInsets.only(right: 10.h),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgSupport,
-                              height: 24.adaptSize,
-                              width: 24.adaptSize,
+        body: Stack(
+          children: [
+            SizedBox(
+              width: double.maxFinite,
+              child: Column(
+                children: [
+                  SizedBox(height: 6.v),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 5.v),
+                        padding: EdgeInsets.symmetric(horizontal: 16.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Account",
+                              style: CustomTextStyles
+                                  .headlineSmallAbhayaLibreExtraBoldOnPrimaryContainer,
                             ),
-                          ),
-                          buttonStyle: CustomButtonStyles.fillBlueGray,
-                          buttonTextStyle:
-                              CustomTextStyles.titleSmallAlegreyaSansPrimary,
-                        )
-                      ],
+                            SizedBox(height: 4.v),
+                            SizedBox(
+                              width: 84.h,
+                              child: Divider(
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                            SizedBox(height: 23.v),
+                            _buildRowJohnDoe(context),
+                            SizedBox(height: 24.v),
+                            const Divider(),
+                            SizedBox(height: 23.v),
+                            _buildRowUilCreditCard(context,
+                                payment: "Profile details", onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(AppRoutes.profileDetailsScreen);
+                            }),
+                            _buildRowUilCreditCard(
+                              context,
+                              payment: "Payment",
+                            ),
+                            _buildRowUilCreditCard(
+                              context,
+                              payment: "Subscription",
+                            ),
+                            const Divider(),
+                            SizedBox(height: 23.v),
+                            _buildRowUilCreditCard(
+                              context,
+                              payment: "FAQs",
+                            ),
+                            _buildRowUilCreditCard(
+                              context,
+                              payment: "Logout",
+                              imageconstant: ImageConstant.imgUilSignout,
+                              onTap: () {
+                                FirebaseAuth.instance.signOut();
+                              },
+                            ),
+                            _buildRowUilCreditCard(context,
+                                payment: "Delete Account",
+                                imageconstant: ImageConstant.imgMdiDelete,
+                                onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Delete your Account?'),
+                                    content: const Text(
+                                        'Do You Want to Delete Your Account'),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'Delete',
+                                          style: TextStyle(),
+                                        ),
+                                        onPressed: () async {
+                                          Navigator.of(context).pop();
+                                          await _deleteUserProfile();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }),
+                            SizedBox(height: 46.v),
+                            CustomElevatedButton(
+                              height: 64.v,
+                              text: "Feel free to ask, We are here to help",
+                              leftIcon: Container(
+                                margin: EdgeInsets.only(right: 10.h),
+                                child: CustomImageView(
+                                  imagePath: ImageConstant.imgSupport,
+                                  height: 24.adaptSize,
+                                  width: 24.adaptSize,
+                                ),
+                              ),
+                              buttonStyle: CustomButtonStyles.fillBlueGray,
+                              buttonTextStyle: CustomTextStyles
+                                  .titleSmallAlegreyaSansPrimary,
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  )
+                ],
+              ),
+            ),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(),
               )
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -182,9 +225,9 @@ class AccountScreen extends StatelessWidget {
         ),
         onPressed: () => Navigator.pop(context),
       ),
-      title: AppbarSubtitle(
-        text: "Home",
-        margin: EdgeInsets.only(left: 8.h),
+      title: AppbarTitle(
+        text: 'Home',
+        // margin: EdgeInsets.only(left: 8.h),
       ),
     );
   }
@@ -225,7 +268,7 @@ class AccountScreen extends StatelessWidget {
         const Spacer(),
         CustomOutlinedButton(
           width: 100.h,
-          text: "Premuim",
+          text: "My Books",
           margin: EdgeInsets.symmetric(vertical: 21.v),
           onPressed: () {
             Navigator.of(context).pushNamed(AppRoutes.sellerDetailsScreen);
@@ -272,20 +315,6 @@ class AccountScreen extends StatelessWidget {
 
       onTap: () => onTap?.call(), // Navigate back on tap
     );
-  }
-
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return AppRoutes.homeScreenPage;
-      case BottomBarEnum.Explore:
-        return "/";
-      case BottomBarEnum.Library:
-        return "/";
-      default:
-        return "/";
-    }
   }
 
   ///Handling page based on route
