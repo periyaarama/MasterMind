@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
 2024/05/07-21:59:05.459 6b68 Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\Site Characteristics Database/MANIFEST-000001
 2024/05/07-21:59:05.459 6b68 Recovering log #3
 2024/05/07-21:59:05.460 6b68 Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\Site Characteristics Database/000003.log 
+=======
+2024/05/05-14:44:22.928 215c Creating DB C:\Users\User\AppData\Local\Temp\flutter_tools.1e584716\flutter_tools_chrome_device.6155004f\Default\Site Characteristics Database since it was missing.
+2024/05/05-14:44:23.122 215c Reusing MANIFEST C:\Users\User\AppData\Local\Temp\flutter_tools.1e584716\flutter_tools_chrome_device.6155004f\Default\Site Characteristics Database/MANIFEST-000001
+>>>>>>> Stashed changes

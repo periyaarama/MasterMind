@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 2024/05/07-21:59:09.512 10e0 Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\shared_proto_db/MANIFEST-000001
 2024/05/07-21:59:09.513 10e0 Recovering log #19
 2024/05/07-21:59:09.515 10e0 Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.c887d4fe\flutter_tools_chrome_device.6d6a766d\Default\shared_proto_db/000019.log 
@@ -14,3 +15,7 @@
 2024/05/07-21:59:54.095 9ac Level-0 table #24: started
 2024/05/07-21:59:54.106 9ac Level-0 table #24: 138919 bytes OK
 2024/05/07-21:59:54.109 9ac Delete type=0 #19
+=======
+2024/05/05-14:44:24.407 446c Creating DB C:\Users\User\AppData\Local\Temp\flutter_tools.1e584716\flutter_tools_chrome_device.6155004f\Default\shared_proto_db since it was missing.
+2024/05/05-14:44:24.486 446c Reusing MANIFEST C:\Users\User\AppData\Local\Temp\flutter_tools.1e584716\flutter_tools_chrome_device.6155004f\Default\shared_proto_db/MANIFEST-000001
+>>>>>>> Stashed changes
