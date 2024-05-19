@@ -10,9 +10,14 @@ import '../widgets/custom_text_form_field.dart';
 import 'home_screen_page/home_screen_page.dart';
 
 // ignore_for_file: must_be_immutable
-class ProfileDetailsScreen extends StatelessWidget {
+class ProfileDetailsScreen extends StatefulWidget {
   ProfileDetailsScreen({super.key});
 
+  @override
+  State<ProfileDetailsScreen> createState() => _ProfileDetailsScreenState();
+}
+
+class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   TextEditingController firstNameController = TextEditingController();
 
   TextEditingController lastNameController = TextEditingController();
@@ -29,6 +34,7 @@ class ProfileDetailsScreen extends StatelessWidget {
 
   // Firebase instances for authentication and Firestore
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart'; // ignore: must_be_immutable
 
 class ChipviewpersonaItemWidget extends StatelessWidget {
-  const ChipviewpersonaItemWidget({super.key});
+  final String text;
+  const ChipviewpersonaItemWidget({super.key, this.text = 'Personal growth'});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class ChipviewpersonaItemWidget extends StatelessWidget {
       showCheckmark: false,
       labelPadding: EdgeInsets.zero,
       label: Text(
-        "Personal growth",
+        text,
         style: TextStyle(
           color: theme.colorScheme.primary,
           fontSize: 12.fSize,
