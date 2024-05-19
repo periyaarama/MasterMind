@@ -1,4 +1,7 @@
+//account_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:master_mind/screens/crud_owner/my_books.dart';
 import 'package:master_mind/widgets/app_bar/appbar_title.dart';
 import '../core/app_export.dart';
 import '../theme/custom_button_style.dart';
@@ -9,10 +12,11 @@ import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_icon_button.dart';
 import '../widgets/custom_outlined_button.dart';
 import 'home_screen_page/home_screen_page.dart';
+import 'crud_owner/upload_page.dart';
 
 // ignore_for_file: must_be_immutable
 class AccountScreen extends StatefulWidget {
-  AccountScreen({super.key});
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -117,28 +121,18 @@ class _AccountScreenState extends State<AccountScreen> {
                               Navigator.of(context)
                                   .pushNamed(AppRoutes.profileDetailsScreen);
                             }),
-                            _buildRowUilCreditCard(
-                              context,
-                              payment: "Payment",
-                            ),
-                            _buildRowUilCreditCard(
-                              context,
-                              payment: "Subscription",
-                            ),
+                            _buildRowUilCreditCard(context, payment: "Payment"),
+                            _buildRowUilCreditCard(context,
+                                payment: "Subscription"),
                             const Divider(),
                             SizedBox(height: 23.v),
-                            _buildRowUilCreditCard(
-                              context,
-                              payment: "FAQs",
-                            ),
-                            _buildRowUilCreditCard(
-                              context,
-                              payment: "Logout",
-                              imageconstant: ImageConstant.imgUilSignout,
-                              onTap: () {
-                                FirebaseAuth.instance.signOut();
-                              },
-                            ),
+                            _buildRowUilCreditCard(context, payment: "FAQs"),
+                            _buildRowUilCreditCard(context,
+                                payment: "Logout",
+                                imageconstant: ImageConstant.imgUilSignout,
+                                onTap: () {
+                              FirebaseAuth.instance.signOut();
+                            }),
                             _buildRowUilCreditCard(context,
                                 payment: "Delete Account",
                                 imageconstant: ImageConstant.imgMdiDelete,
@@ -184,10 +178,42 @@ class _AccountScreenState extends State<AccountScreen> {
                                   width: 24.adaptSize,
                                 ),
                               ),
-                              buttonStyle: CustomButtonStyles.fillBlueGray,
-                              buttonTextStyle: CustomTextStyles
-                                  .titleSmallAlegreyaSansPrimary,
-                            )
+                              buttonStyle: CustomButtonStyles.fillPrimary,
+                              buttonTextStyle:
+                                  CustomTextStyles.titleSmallPrimaryContainer,
+                            ),
+                            SizedBox(height: 20.v), // Added space
+
+                            CustomElevatedButton(
+                              // Add Book button
+                              height: 64.v,
+                              text: "Add Book",
+                              onPressed: () {
+                                // Navigate to the page where users can upload their book
+                                // Replace 'UploadPage()' with the appropriate widget for uploading books
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const UploadPage()));
+                              },
+                              buttonStyle: CustomButtonStyles.fillPrimary,
+                              buttonTextStyle:
+                                  CustomTextStyles.titleSmallPrimaryContainer,
+                            ),
+                            SizedBox(height: 20.v), // Added space
+
+                            CustomElevatedButton(
+                              // Add Book button
+                              height: 64.v,
+                              text: "View My Books",
+                              onPressed: () {
+                                // Navigate to the page where users can upload their book
+                                // Replace 'UploadPage()' with the appropriate widget for uploading books
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const MyBooksPage()));
+                              },
+                              buttonStyle: CustomButtonStyles.fillPrimary,
+                              buttonTextStyle:
+                                  CustomTextStyles.titleSmallPrimaryContainer,
+                            ),
                           ],
                         ),
                       ),
@@ -221,7 +247,7 @@ class _AccountScreenState extends State<AccountScreen> {
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,
-          color: Color(0XFFC3CCCC),
+          color: Color.fromARGB(255, 9, 197, 122),
         ),
         onPressed: () => Navigator.pop(context),
       ),
