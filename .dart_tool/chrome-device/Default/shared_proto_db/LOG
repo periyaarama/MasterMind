@@ -1,28 +1,21 @@
-2024/05/19-13:47:45.595 4bcc Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.7d31cd91\flutter_tools_chrome_device.45ac106e\Default\shared_proto_db/MANIFEST-000001
-2024/05/19-13:47:45.596 4bcc Recovering log #29
-2024/05/19-13:47:45.598 4bcc Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.7d31cd91\flutter_tools_chrome_device.45ac106e\Default\shared_proto_db/000029.log 
-2024/05/19-13:47:45.598 4bcc Delete type=0 #3
-2024/05/19-13:47:45.599 4bcc Delete type=0 #4
-2024/05/19-13:47:45.599 4bcc Delete type=0 #7
-2024/05/19-13:47:45.599 4bcc Delete type=2 #8
-2024/05/19-13:47:45.599 4bcc Delete type=0 #10
-2024/05/19-13:47:45.599 4bcc Delete type=2 #11
-2024/05/19-13:47:45.599 4bcc Delete type=0 #13
-2024/05/19-13:47:45.599 4bcc Delete type=2 #14
-2024/05/19-13:47:45.600 4bcc Delete type=0 #16
-2024/05/19-13:47:45.600 4bcc Delete type=2 #17
-2024/05/19-13:47:45.600 4bcc Delete type=0 #19
-2024/05/19-13:47:45.600 4bcc Delete type=0 #23
-2024/05/19-13:47:45.600 4bcc Delete type=0 #26
-2024/05/19-13:48:16.358 f24 Level-0 table #33: started
-2024/05/19-13:48:16.365 f24 Level-0 table #33: 137276 bytes OK
-2024/05/19-13:48:16.368 f24 Delete type=0 #29
-2024/05/19-13:48:16.369 3710 Compacting 4@0 + 1@1 files
-2024/05/19-13:48:16.384 3710 Generated table #34@0: 1512 keys, 102069 bytes
-2024/05/19-13:48:16.384 3710 Compacted 4@0 + 1@1 files => 102069 bytes
-2024/05/19-13:48:16.387 3710 compacted to: files[ 0 1 1 0 0 0 0 ]
-2024/05/19-13:48:16.387 3710 Delete type=2 #21
-2024/05/19-13:48:16.387 3710 Delete type=2 #24
-2024/05/19-13:48:16.387 3710 Delete type=2 #27
-2024/05/19-13:48:16.387 3710 Delete type=2 #30
-2024/05/19-13:48:16.388 3710 Delete type=2 #33
+2024/05/19-16:18:29.787 748 Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.24ae20e7\flutter_tools_chrome_device.42eb1402\Default\shared_proto_db/MANIFEST-000001
+2024/05/19-16:18:29.787 748 Recovering log #32
+2024/05/19-16:18:29.788 748 Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.24ae20e7\flutter_tools_chrome_device.42eb1402\Default\shared_proto_db/000032.log 
+2024/05/19-16:18:29.789 748 Delete type=0 #3
+2024/05/19-16:18:29.789 748 Delete type=0 #4
+2024/05/19-16:18:29.789 748 Delete type=0 #7
+2024/05/19-16:18:29.789 748 Delete type=2 #8
+2024/05/19-16:18:29.789 748 Delete type=0 #10
+2024/05/19-16:18:29.789 748 Delete type=2 #11
+2024/05/19-16:18:29.789 748 Delete type=0 #13
+2024/05/19-16:18:29.789 748 Delete type=2 #14
+2024/05/19-16:18:29.790 748 Delete type=0 #16
+2024/05/19-16:18:29.790 748 Delete type=2 #17
+2024/05/19-16:18:29.790 748 Delete type=0 #19
+2024/05/19-16:18:29.790 748 Delete type=2 #21
+2024/05/19-16:18:29.790 748 Delete type=0 #23
+2024/05/19-16:18:29.790 748 Delete type=2 #24
+2024/05/19-16:18:29.790 748 Delete type=0 #26
+2024/05/19-16:18:29.790 748 Delete type=2 #27
+2024/05/19-16:18:29.790 748 Delete type=0 #29
+2024/05/19-16:18:29.790 748 Delete type=2 #30

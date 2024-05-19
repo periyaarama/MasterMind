@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:master_mind/screens/book_details_screen/widgets/chipviewpersona_item_widget.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
 import 'package:master_mind/screens/crud_owner/update_book.dart';
-import '../../../core/app_export.dart';
-import '../../../theme/custom_button_style.dart';
-import '../../../widgets/custom_elevated_button.dart';
+import 'package:master_mind/theme/custom_button_style.dart';
+import '../../core/app_export.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../book_details_screen/widgets/chipviewpersona_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
-class BookDetailsScreen extends StatelessWidget {
+class BookDetailsSellerScreen extends StatelessWidget {
   final Book book;
 
-  // ignore: use_key_in_widget_constructors
-  BookDetailsScreen({
-    Key? key,
-    required this.book,
-  });
+  BookDetailsSellerScreen({super.key, required this.book});
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -22,25 +18,61 @@ class BookDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: const Text('Book Details'),
-        ),
         body: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(bottom: 5.v),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildProjectRow(context),
+                  _buildImageStack(context),
+                  SizedBox(height: 23.v),
+                  Container(
+                    width: 319.h,
+                    margin: EdgeInsets.only(
+                      left: 16.h,
+                      right: 54.h,
+                    ),
+                    child: Text(
+                      book.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                  ),
+                  SizedBox(height: 10.v),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.h),
+                    child: Text(
+                      book.author,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  ),
+                  SizedBox(height: 8.v),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.h),
+                    child: Text(
+                      book.title,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  ),
                   SizedBox(height: 21.v),
-                  _buildAboutThisColumn(context),
+                  CustomElevatedButton(
+                    text: "${book.numberOfPages} pages",
+                    margin: EdgeInsets.symmetric(horizontal: 16.h),
+                    leftIcon: Container(
+                      margin: EdgeInsets.only(right: 9.h),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.imgUilBook,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(height: 27.v),
+                  _buildBookDetailsColumn(context),
                   SizedBox(height: 24.v),
                   _buildDeleteButton(context, book),
                   SizedBox(height: 24.v),
@@ -55,38 +87,148 @@ class BookDetailsScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildProjectRow(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildImageStack(BuildContext context) {
+    return SizedBox(
+      height: 333.v,
+      width: double.maxFinite,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          SizedBox(
-            width: 319.h,
-            child: Text(
-              book.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleLarge,
+          CustomImageView(
+            imagePath: book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
+            height: 321.v,
+            width: 390.h,
+            alignment: Alignment.topCenter,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: 333.v,
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(horizontal: 16.h),
+              decoration:
+                  AppDecoration.gradientOnErrorContainerToOnErrorContainer,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  CustomImageView(
+                    imagePath:
+                        book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
+                    height: 220.v,
+                    width: 153.h,
+                    alignment: Alignment.bottomCenter,
+                    margin: EdgeInsets.only(bottom: 6.v),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 277.v),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 33.h,
+                        vertical: 16.v,
+                      ),
+                      decoration:
+                          AppDecoration.fillOnSecondaryContainer.copyWith(
+                        borderRadius: BorderRadiusStyle.roundedBorder8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: book.imgUrl ??
+                                ImageConstant.imgGgReadOnprimarycontainer,
+                            height: 18.adaptSize,
+                            width: 18.adaptSize,
+                            margin: EdgeInsets.only(bottom: 4.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 4.h,
+                              bottom: 5.v,
+                            ),
+                            child: Text(
+                              "1.7k",
+                              style:
+                                  CustomTextStyles.titleSmallSecondaryContainer,
+                            ),
+                          ),
+                          Opacity(
+                            opacity: 0.3,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 32.h),
+                              child: SizedBox(
+                                height: 24.v,
+                                child: VerticalDivider(
+                                  width: 1.h,
+                                  thickness: 1.v,
+                                  color: theme.colorScheme.secondaryContainer,
+                                ),
+                              ),
+                            ),
+                          ),
+                          CustomImageView(
+                            imagePath: ImageConstant.imgBasilStarOutline,
+                            height: 15.adaptSize,
+                            width: 15.adaptSize,
+                            margin: EdgeInsets.only(
+                              left: 48.h,
+                              top: 3.v,
+                              bottom: 6.v,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 4.h,
+                              top: 2.v,
+                              bottom: 4.v,
+                            ),
+                            child: Text(
+                              "4.8",
+                              style:
+                                  CustomTextStyles.titleSmallSecondaryContainer,
+                            ),
+                          ),
+                          Opacity(
+                            opacity: 0.3,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 47.h),
+                              child: SizedBox(
+                                height: 24.v,
+                                child: VerticalDivider(
+                                  width: 1.h,
+                                  thickness: 1.v,
+                                  color: theme.colorScheme.secondaryContainer,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 38.h,
+                              top: 3.v,
+                              bottom: 3.v,
+                            ),
+                            child: Text(
+                              " ${book.price} RM",
+                              style: theme.textTheme.titleSmall,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 10.v),
-          Text(
-            book.author,
-            style: theme.textTheme.titleSmall,
-          ),
-          SizedBox(height: 8.v),
-          Text(
-            book.description,
-            style: theme.textTheme.titleSmall,
-          ),
+          )
         ],
       ),
     );
   }
 
   /// Section Widget
-  Widget _buildAboutThisColumn(BuildContext context) {
+  Widget _buildBookDetailsColumn(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
       child: Column(
@@ -94,7 +236,8 @@ class BookDetailsScreen extends StatelessWidget {
         children: [
           Text(
             "About this Book",
-            style: theme.textTheme.titleMedium,
+            style: CustomTextStyles
+                .titleMediumAbhayaLibreExtraBoldOnPrimaryContainer,
           ),
           SizedBox(height: 8.v),
           Container(

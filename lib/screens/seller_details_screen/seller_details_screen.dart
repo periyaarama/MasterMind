@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../../widgets/custom_icon_button.dart';
+// import '../../widgets/custom_icon_button.dart';
 import '../home_screen_page/home_screen_page.dart';
 import 'widgets/userprofile3_item_widget.dart';
 
@@ -208,7 +208,7 @@ class SellerDetailsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Books",
+            "My Books",
             style: theme.textTheme.titleLarge,
           ),
           const Spacer(),
@@ -218,25 +218,25 @@ class SellerDetailsScreen extends StatelessWidget {
               bottom: 4.v,
             ),
             child: Text(
-              "Show all",
+              "4 Books",
               style: CustomTextStyles.labelLargeAbhayaLibreExtraBoldPrimary,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 4.h,
-              top: 5.v,
-              bottom: 2.v,
-            ),
-            child: CustomIconButton(
-              height: 16.adaptSize,
-              width: 16.adaptSize,
-              padding: EdgeInsets.all(1.h),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgVector,
-              ),
-            ),
-          )
+          // Padding(
+          //   padding: EdgeInsets.only(
+          //     left: 4.h,
+          //     top: 5.v,
+          //     bottom: 2.v,
+          //   ),
+          //   child: CustomIconButton(
+          //     height: 16.adaptSize,
+          //     width: 16.adaptSize,
+          //     padding: EdgeInsets.all(1.h),
+          //     child: CustomImageView(
+          //       imagePath: ImageConstant.imgVector,
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
