@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/app_export.dart';
-import 'firebase_options.dart';
+import 'firebase_options.dart';  
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {

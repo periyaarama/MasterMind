@@ -4,7 +4,11 @@
             "outputFile": "com.example.master_mind.app-mergeDebugResources-14:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
+<<<<<<< Updated upstream
                     "source": "C:\\Users\\roshn\\OneDrive\\Documents\\Y3S2\\MAP CODES\\MasterMind\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+=======
+                    "source": "C:\\Users\\roshn\\MasterMind\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+>>>>>>> Stashed changes
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

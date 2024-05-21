@@ -4,6 +4,46 @@
             "outputFile": "com.example.master_mind.app-mergeDebugResources-14:/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
+<<<<<<< Updated upstream
+                    "source": "C:\\Users\\roshn\\.gradle\\caches\\transforms-3\\4ce8cd4ffd6df6738a1841f01cb78292\\transformed\\browser-1.4.0\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,164,266,381",
+                        "endColumns": "108,101,114,105",
+                        "endOffsets": "159,261,376,482"
+                    },
+                    "to": {
+                        "startLines": "20,21,22,23",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "2384,2493,2595,2710",
+                        "endColumns": "108,101,114,105",
+                        "endOffsets": "2488,2590,2705,2811"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\roshn\\.gradle\\caches\\transforms-3\\974b4f2252348b5ef43741b27d416a49\\transformed\\core-1.6.0\\res\\values-es-rUS\\values-es-rUS.xml",
+=======
+                    "source": "C:\\Users\\roshn\\.gradle\\caches\\transforms-3\\ad307aea8518aca9a4898bdde5fe4a60\\transformed\\jetified-play-services-base-18.1.0\\res\\values-es-rUS\\values.xml",
+>>>>>>> Stashed changes
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "24",
+                        "startColumns": "4",
+                        "startOffsets": "2816",
+                        "endColumns": "100",
+                        "endOffsets": "2912"
+                    }
+                },
+                {
+<<<<<<< Updated upstream
+=======
                     "source": "C:\\Users\\roshn\\.gradle\\caches\\transforms-3\\4ce8cd4ffd6df6738a1841f01cb78292\\transformed\\browser-1.4.0\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -38,6 +78,7 @@
                     }
                 },
                 {
+>>>>>>> Stashed changes
                     "source": "C:\\Users\\roshn\\.gradle\\caches\\transforms-3\\4105637ca2d0ffd34d30b1a01003cfea\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-es-rUS\\values.xml",
                     "from": {
                         "startLines": "4",
