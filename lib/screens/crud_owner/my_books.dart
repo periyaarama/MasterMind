@@ -281,7 +281,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomImageView(
-            imagePath: book.imgUrl ?? ImageConstant.imagePath,
+            imagePath: book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
             height: 254.v,
             width: 175.h,
           ),

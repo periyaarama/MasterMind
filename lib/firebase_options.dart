@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         return windows;
       case TargetPlatform.linux:
@@ -49,6 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '895800313585',
     projectId: 'readio-7e0ed',
     authDomain: 'readio-7e0ed.firebaseapp.com',
+    databaseURL: 'https://readio-7e0ed-default-rtdb.firebaseio.com',
     storageBucket: 'readio-7e0ed.appspot.com',
     measurementId: 'G-R174E5N6TC',
   );
@@ -58,6 +56,7 @@ class DefaultFirebaseOptions {
     appId: '1:895800313585:android:d237098e641fe3377b4b50',
     messagingSenderId: '895800313585',
     projectId: 'readio-7e0ed',
+    databaseURL: 'https://readio-7e0ed-default-rtdb.firebaseio.com',
     storageBucket: 'readio-7e0ed.appspot.com',
   );
 
@@ -66,6 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:895800313585:ios:e55ae26a9c7927797b4b50',
     messagingSenderId: '895800313585',
     projectId: 'readio-7e0ed',
+    databaseURL: 'https://readio-7e0ed-default-rtdb.firebaseio.com',
     storageBucket: 'readio-7e0ed.appspot.com',
     iosBundleId: 'com.example.masterMind',
   );
@@ -76,8 +76,19 @@ class DefaultFirebaseOptions {
     messagingSenderId: '895800313585',
     projectId: 'readio-7e0ed',
     authDomain: 'readio-7e0ed.firebaseapp.com',
+    databaseURL: 'https://readio-7e0ed-default-rtdb.firebaseio.com',
     storageBucket: 'readio-7e0ed.appspot.com',
     measurementId: 'G-86NLKJ6P0Z',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBUpGEBTXylZhMl2s45TnJzUYmBFJCMcho',
+    appId: '1:895800313585:ios:e55ae26a9c7927797b4b50',
+    messagingSenderId: '895800313585',
+    projectId: 'readio-7e0ed',
+    databaseURL: 'https://readio-7e0ed-default-rtdb.firebaseio.com',
+    storageBucket: 'readio-7e0ed.appspot.com',
+    iosBundleId: 'com.example.masterMind',
   );
 
 }
