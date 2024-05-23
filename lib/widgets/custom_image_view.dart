@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 extension ImageTypeExtension on String {
@@ -19,7 +18,7 @@ extension ImageTypeExtension on String {
 
 enum ImageType { svg, png, network, file, unknown }
 
-// ignore_for_file: must_be_immutable
+// ignore: must_be_immutable
 class CustomImageView extends StatelessWidget {
   CustomImageView(
       {super.key,
@@ -35,27 +34,16 @@ class CustomImageView extends StatelessWidget {
       this.border,
       this.placeHolder = 'assets/images/image_not_found.png'});
 
-  ///[imagePath] is required parameter for showing image
   String? imagePath;
-
   double? height;
-
   double? width;
-
   Color? color;
-
   BoxFit? fit;
-
   final String placeHolder;
-
   Alignment? alignment;
-
   VoidCallback? onTap;
-
   EdgeInsetsGeometry? margin;
-
   BorderRadius? radius;
-
   BoxBorder? border;
 
   @override
@@ -75,7 +63,6 @@ class CustomImageView extends StatelessWidget {
     );
   }
 
-  ///build the image with border radius
   _buildCircleImage() {
     if (radius != null) {
       return ClipRRect(
@@ -87,7 +74,6 @@ class CustomImageView extends StatelessWidget {
     }
   }
 
-  ///build the image with border and border radius style
   _buildImageWithBorder() {
     if (border != null) {
       return Container(
@@ -129,26 +115,31 @@ class CustomImageView extends StatelessWidget {
             color: color,
           );
         case ImageType.network:
-          return CachedNetworkImage(
+          return Image.network(
+            imagePath!,
             height: height,
             width: width,
-            fit: fit,
-            imageUrl: imagePath!,
+            fit: fit ?? BoxFit.cover,
             color: color,
-            placeholder: (context, url) => SizedBox(
-              height: 30,
-              width: 30,
-              child: LinearProgressIndicator(
-                color: Colors.grey.shade200,
-                backgroundColor: Colors.grey.shade100,
-              ),
-            ),
-            errorWidget: (context, url, error) => Image.asset(
-              placeHolder,
-              height: height,
-              width: width,
-              fit: fit ?? BoxFit.cover,
-            ),
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                placeHolder,
+                height: height,
+                width: width,
+                fit: fit ?? BoxFit.cover,
+              );
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          (loadingProgress.expectedTotalBytes ?? 1)
+                      : null,
+                ),
+              );
+            },
           );
         case ImageType.png:
         default:

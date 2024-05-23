@@ -12,6 +12,7 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   ThemeHelper().changeTheme('primary');
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
