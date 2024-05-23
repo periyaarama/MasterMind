@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
+import 'package:master_mind/screens/crud_owner/pdf_viewer_page.dart';
 import 'package:master_mind/screens/crud_owner/update_book.dart';
 import 'package:master_mind/theme/custom_button_style.dart';
 import '../../core/app_export.dart';
@@ -61,6 +62,13 @@ class BookDetailsSellerScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: "${book.numberOfPages} pages",
                     margin: EdgeInsets.symmetric(horizontal: 16.h),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PDFViewerPage(
+                          pdfUrl: book.pdfUrl!,
+                        ),
+                      ));
+                    },
                     leftIcon: Container(
                       margin: EdgeInsets.only(right: 9.h),
                       child: CustomImageView(

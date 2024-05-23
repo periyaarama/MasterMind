@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart'; // ignore: must_be_immutable
 
 class ChipviewpersonaItemWidget extends StatelessWidget {
-  const ChipviewpersonaItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  const ChipviewpersonaItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

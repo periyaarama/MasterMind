@@ -33,5 +33,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// This line is added to test the github command on vs code

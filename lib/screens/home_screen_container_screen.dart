@@ -85,7 +85,7 @@ class HomeScreenContainerScreen extends StatelessWidget {
       case AppRoutes.bookDetailsScreen:
         return BookDetailsScreen();
       case AppRoutes.accountScreen:
-        return AccountScreen();
+        return const AccountScreen();
       case AppRoutes.profileDetailsScreen:
         return const ProfileDetailsScreen();
       case AppRoutes.bookDetailsSellerScreen:
