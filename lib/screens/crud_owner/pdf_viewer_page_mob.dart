@@ -29,12 +29,18 @@ class PDFViewerPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.download),
+            icon: const Icon(
+              Icons.download,
+              color: Colors.white,
+            ),
             onPressed: () => _downloadPDF(context),
           ),
         ],
