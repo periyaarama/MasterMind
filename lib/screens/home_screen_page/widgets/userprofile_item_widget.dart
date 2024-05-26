@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart'; // ignore: must_be_immutable
 
 class UserprofileItemWidget extends StatelessWidget {
-  const UserprofileItemWidget({super.key});
+  final String title;
+  final String author;
+  final String imageUrl;
+
+  const UserprofileItemWidget({
+    super.key,
+    required this.title,
+    required this.author,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +21,20 @@ class UserprofileItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgE50c016fB6a84,
+            imagePath: imageUrl,
             height: 184.v,
             width: 128.h,
           ),
           SizedBox(height: 8.v),
           Text(
-            "The good guy",
+            title,
             style: theme.textTheme.labelLarge,
+            overflow: TextOverflow.ellipsis,
           ),
           Text(
-            "Mark mcallister",
+            author,
             style: CustomTextStyles.labelMediumPrimary,
+            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 8.v),
           Row(

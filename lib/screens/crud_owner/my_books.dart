@@ -60,7 +60,11 @@ class _MyBooksPageState extends State<MyBooksPage> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error fetching books.'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No books found.'));
+              return const Center(
+                  child: Text(
+                'No books found.',
+                style: TextStyle(color: Colors.white),
+              ));
             } else {
               List<Book> books = snapshot.data!;
               return SafeArea(

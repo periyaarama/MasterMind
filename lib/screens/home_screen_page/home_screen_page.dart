@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:master_mind/screens/home_screen_page/widgets/book_item_widget.dart';
 import 'package:master_mind/widgets/app_bar/appbar_profile.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_icon_button.dart';
-import 'widgets/userprofile1_item_widget.dart';
-import 'widgets/userprofile2_item_widget.dart';
-import 'widgets/userprofile_item_widget.dart'; // ignore_for_file: must_be_immutable
 
 class HomeScreenPage extends StatelessWidget {
   const HomeScreenPage({super.key});
+
+  Future<List<DocumentSnapshot>> fetchBooksByGenre(String genre) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('books')
+        .where('genres', arrayContains: genre)
+        .get();
+    return querySnapshot.docs;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +39,18 @@ class HomeScreenPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15.v),
+                  SizedBox(height: 45.v),
                   _buildContinueReading(context),
-                  SizedBox(height: 33.v),
-                  _buildForYou(context),
-                  SizedBox(height: 24.v),
-                  _buildTrending(context),
-                  SizedBox(height: 23.v),
-                  _buildFiveMinutesRead(context)
+                  SizedBox(height: 60.v),
+                  _buildGenreSection(context, "Mystery"),
+                  SizedBox(height: 60.v),
+                  _buildGenreSection(context, "Sci-Fi"),
+                  SizedBox(height: 60.v),
+                  _buildGenreSection(context, "Romance"),
+                  SizedBox(height: 60.v),
+                  _buildGenreSection(context, "Non-Fiction"),
+                  SizedBox(height: 60.v),
+                  _buildGenreSection(context, "Fiction"),
                 ],
               ),
             ),
@@ -50,7 +60,6 @@ class HomeScreenPage extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       title: Padding(
@@ -75,17 +84,6 @@ class HomeScreenPage extends StatelessWidget {
         ),
       ),
       actions: [
-        // IconButton(
-        //     onPressed: () {
-        //       Navigator.of(context).pushNamed(AppRoutes.accountScreen);
-        //     },
-        //     icon: const Padding(
-        //       padding: EdgeInsets.fromLTRB(0, 2, 2, 0),
-        //       child: Icon(
-        //         Icons.person,
-        //         color: Colors.white,
-        //       ),
-        //     ))
         AppbarProfile(
           imagePath: ImageConstant.imgEllipse170x70,
           margin: EdgeInsets.fromLTRB(22.h, 19.v, 22.h, 16.v),
@@ -97,7 +95,6 @@ class HomeScreenPage extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildContinueReading(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
@@ -215,8 +212,7 @@ class HomeScreenPage extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildForYou(BuildContext context) {
+  Widget _buildGenreSection(BuildContext context, String genre) {
     return Padding(
       padding: EdgeInsets.only(left: 8.h),
       child: Column(
@@ -224,30 +220,44 @@ class HomeScreenPage extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(right: 24.h),
-            child: _buildNorseMythology(
-              context,
-              trendingText: "For you",
-              showallOne: "Show all",
-            ),
+            child: _buildSectionHeader(context, genre),
           ),
           SizedBox(height: 14.v),
           SizedBox(
-            height: 260.v,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: 8.h,
-                );
-              },
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(AppRoutes.bookDetailsScreen);
+            height: 320.v,
+            child: FutureBuilder<List<DocumentSnapshot>>(
+              future: fetchBooksByGenre(genre),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                      child: Text(
+                    'No books found.',
+                    style: TextStyle(color: Colors.white),
+                  ));
+                } else {
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(width: 8.h);
                     },
-                    child: const UserprofileItemWidget());
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var book = snapshot.data![index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                              AppRoutes.bookDetailsScreen,
+                              arguments: book.id);
+                        },
+                        child: BookItemWidget(book: book),
+                      );
+                    },
+                  );
+                }
               },
             ),
           )
@@ -256,130 +266,32 @@ class HomeScreenPage extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildTrending(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 24.h),
-            child: _buildNorseMythology(
-              context,
-              trendingText: "Trending",
-              showallOne: "Show all",
-            ),
-          ),
-          SizedBox(height: 15.v),
-          SizedBox(
-            height: 260.v,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: 8.h,
-                );
-              },
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(AppRoutes.bookDetailsScreen);
-                    },
-                    child: const Userprofile1ItemWidget());
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildFiveMinutesRead(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 24.h),
-            child: _buildNorseMythology(
-              context,
-              trendingText: "5-Minutes read",
-              showallOne: "Show all",
-            ),
-          ),
-          SizedBox(height: 16.v),
-          SizedBox(
-            height: 260.v,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: 8.h,
-                );
-              },
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(AppRoutes.bookDetailsScreen);
-                    },
-                    child: const Userprofile2ItemWidget());
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  /// Common widget
-  Widget _buildNorseMythology(
-    BuildContext context, {
-    required String trendingText,
-    required String showallOne,
-  }) {
+  Widget _buildSectionHeader(BuildContext context, String genre) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          trendingText,
+          genre,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onError.withOpacity(1),
           ),
         ),
         const Spacer(),
         Padding(
-          padding: EdgeInsets.only(
-            top: 3.v,
-            bottom: 5.v,
-          ),
+          padding: EdgeInsets.only(top: 3.v, bottom: 5.v),
           child: Text(
-            showallOne,
+            "Show all",
             style: CustomTextStyles.labelLargeAbhayaLibreExtraBoldGreen100
-                .copyWith(
-              color: appTheme.green100,
-            ),
+                .copyWith(color: appTheme.green100),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-            left: 4.h,
-            top: 3.v,
-            bottom: 4.v,
-          ),
+          padding: EdgeInsets.only(left: 4.h, top: 3.v, bottom: 4.v),
           child: CustomIconButton(
             height: 16.adaptSize,
             width: 16.adaptSize,
             padding: EdgeInsets.all(1.h),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgVector,
-            ),
+            child: CustomImageView(imagePath: ImageConstant.imgVector),
           ),
         )
       ],
