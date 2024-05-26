@@ -14,7 +14,7 @@ class BookItemWidget extends StatelessWidget {
 
   Widget _buildBookItem(BuildContext context, DocumentSnapshot<Object?> book) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: 0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,7 +24,7 @@ class BookItemWidget extends StatelessWidget {
             width: 175.h,
             fit: BoxFit.fitHeight,
           ),
-          SizedBox(height: 6.v),
+          SizedBox(height: 16.v),
           Text(
             book['title'],
             style: CustomTextStyles.titleSmallAlegreyaSans,

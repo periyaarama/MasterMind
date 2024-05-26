@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
+import 'package:master_mind/screens/crud_owner/models/book.dart';
 import 'package:master_mind/screens/home_screen_page/widgets/book_item_widget.dart';
 import 'package:master_mind/widgets/app_bar/appbar_profile.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_icon_button.dart';
+import 'package:master_mind/screens/book_details_screen/book_details_screen_v.dart';
 
 class HomeScreenPage extends StatelessWidget {
   const HomeScreenPage({super.key});
@@ -41,15 +44,15 @@ class HomeScreenPage extends StatelessWidget {
                   ),
                   SizedBox(height: 45.v),
                   _buildContinueReading(context),
-                  SizedBox(height: 60.v),
+                  SizedBox(height: 30.v),
                   _buildGenreSection(context, "Mystery"),
-                  SizedBox(height: 60.v),
+                  SizedBox(height: 30.v),
                   _buildGenreSection(context, "Sci-Fi"),
-                  SizedBox(height: 60.v),
+                  SizedBox(height: 30.v),
                   _buildGenreSection(context, "Romance"),
-                  SizedBox(height: 60.v),
+                  SizedBox(height: 30.v),
                   _buildGenreSection(context, "Non-Fiction"),
-                  SizedBox(height: 60.v),
+                  SizedBox(height: 30.v),
                   _buildGenreSection(context, "Fiction"),
                 ],
               ),
@@ -222,9 +225,9 @@ class HomeScreenPage extends StatelessWidget {
             padding: EdgeInsets.only(right: 24.h),
             child: _buildSectionHeader(context, genre),
           ),
-          SizedBox(height: 14.v),
+          SizedBox(height: 34.v),
           SizedBox(
-            height: 320.v,
+            height: 260.v,
             child: FutureBuilder<List<DocumentSnapshot>>(
               future: fetchBooksByGenre(genre),
               builder: (context, snapshot) {
@@ -234,33 +237,41 @@ class HomeScreenPage extends StatelessWidget {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(
-                      child: Text(
-                    'No books found.',
-                    style: TextStyle(color: Colors.white),
-                  ));
+                    child: Text(
+                      'No books found.',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
                 } else {
                   return ListView.separated(
                     scrollDirection: Axis.horizontal,
                     separatorBuilder: (context, index) {
-                      return SizedBox(width: 8.h);
+                      return SizedBox(width: 1.h);
                     },
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      var book = snapshot.data![index];
+                      var bookSnapshot = snapshot.data![index];
+                      var book = Book.fromSnapshot(bookSnapshot);
                       return InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed(
-                              AppRoutes.bookDetailsScreen,
-                              arguments: book.id);
+                          // Navigator.of(context).pushNamed(
+                          //   AppRoutes.bookDetailsScreen,
+                          //   arguments: book.id,
+                          // );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => BookDetailsScreenV(
+                                    book: book,
+                                  )));
                         },
-                        child: BookItemWidget(book: book),
+                        child: Userprofile3ItemWidget(book: book),
+                        // BookItemWidget(book: bookSnapshot),
                       );
                     },
                   );
                 }
               },
             ),
-          )
+          ),
         ],
       ),
     );

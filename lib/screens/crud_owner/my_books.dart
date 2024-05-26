@@ -279,7 +279,6 @@ class _MyBooksPageState extends State<MyBooksPage> {
   }
 
   Widget _buildBookItem(BuildContext context, Book book) {
-    print('Image URL: ${book.imgUrl}');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.h),
       child: Column(
@@ -291,7 +290,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
                 book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
             height: 254.v,
             width: 175.h,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           ),
           SizedBox(height: 16.v),
           Text(
