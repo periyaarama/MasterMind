@@ -410,13 +410,42 @@ class BookDetailsScreenV extends StatelessWidget {
     );
   }
 
-  Future<List<DocumentSnapshot>> fetchBooksByAuthor(String author) async {
-    final querySnapshot = await FirebaseFirestore.instance
+  Future<List<DocumentSnapshot>> fetchSimilarBooks(String author,
+      String publication, List<String> genres, String currentBookId) async {
+    // Query for books by the same author
+    final authorQuerySnapshot = await FirebaseFirestore.instance
         .collection('books')
         .where('author', isEqualTo: author)
-        .where(FieldPath.documentId, isNotEqualTo: book.documentId)
         .get();
-    return querySnapshot.docs;
+
+    // Query for books by the same publication
+    final publicationQuerySnapshot = await FirebaseFirestore.instance
+        .collection('books')
+        .where('publication', isEqualTo: publication)
+        .get();
+
+    // Query for books in the same genres
+    final genresQuerySnapshot = await FirebaseFirestore.instance
+        .collection('books')
+        .where('genres', arrayContainsAny: genres)
+        .get();
+
+    // Combine the results
+    final combinedResults = [
+      ...authorQuerySnapshot.docs,
+      ...publicationQuerySnapshot.docs,
+      ...genresQuerySnapshot.docs,
+    ];
+
+    // Use a set to avoid duplicates
+    final uniqueResults = {
+      for (var doc in combinedResults) doc.id: doc,
+    };
+
+    // Remove the current book from the results
+    uniqueResults.remove(currentBookId);
+
+    return uniqueResults.values.toList();
   }
 
   /// Section Widget
@@ -458,7 +487,8 @@ class BookDetailsScreenV extends StatelessWidget {
         SizedBox(
           height: 270.v,
           child: FutureBuilder<List<DocumentSnapshot>>(
-            future: fetchBooksByAuthor(book.author),
+            future: fetchSimilarBooks(
+                book.author, book.publisher, book.genres, book.documentId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
