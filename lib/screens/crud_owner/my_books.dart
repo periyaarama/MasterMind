@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
+// import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_bottom_bar.dart';
 // import '../../widgets/custom_icon_button.dart';
@@ -60,7 +60,11 @@ class _MyBooksPageState extends State<MyBooksPage> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error fetching books.'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No books found.'));
+              return const Center(
+                  child: Text(
+                'No books found.',
+                style: TextStyle(color: Colors.white),
+              ));
             } else {
               List<Book> books = snapshot.data!;
               return SafeArea(
@@ -185,50 +189,50 @@ class _MyBooksPageState extends State<MyBooksPage> {
     );
   }
 
-  Widget _buildRow(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 3.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 123.h,
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.h,
-              vertical: 12.v,
-            ),
-            decoration: AppDecoration.fillGreen.copyWith(
-              borderRadius: BorderRadiusStyle.roundedBorder20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgUilBookmarkOnprimary,
-                  height: 18.adaptSize,
-                  width: 18.adaptSize,
-                ),
-                Text(
-                  " ",
-                  style: CustomTextStyles.titleSmallAlegreyaSansOnPrimary,
-                )
-              ],
-            ),
-          ),
-          _buildRowCheckedOne(
-            context,
-            isChecked: ImageConstant.imgIcons,
-            label: " ",
-          ),
-          _buildRowCheckedOne(
-            context,
-            isChecked: ImageConstant.imgChecked,
-            label: " ",
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildRow(BuildContext context) {
+  //   return Padding(
+  //     padding: EdgeInsets.only(left: 3.h),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         Container(
+  //           width: 123.h,
+  //           padding: EdgeInsets.symmetric(
+  //             horizontal: 16.h,
+  //             vertical: 12.v,
+  //           ),
+  //           decoration: AppDecoration.fillGreen.copyWith(
+  //             borderRadius: BorderRadiusStyle.roundedBorder20,
+  //           ),
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               CustomImageView(
+  //                 imagePath: ImageConstant.imgUilBookmarkOnprimary,
+  //                 height: 18.adaptSize,
+  //                 width: 18.adaptSize,
+  //               ),
+  //               Text(
+  //                 " ",
+  //                 style: CustomTextStyles.titleSmallAlegreyaSansOnPrimary,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //         _buildRowCheckedOne(
+  //           context,
+  //           isChecked: ImageConstant.imgIcons,
+  //           label: " ",
+  //         ),
+  //         _buildRowCheckedOne(
+  //           context,
+  //           isChecked: ImageConstant.imgChecked,
+  //           label: " ",
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   List<Widget> _buildBooksList(List<Book> books) {
     List<Widget> widgets = [];
@@ -281,9 +285,12 @@ class _MyBooksPageState extends State<MyBooksPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomImageView(
-            imagePath: book.imgUrl ?? ImageConstant.imagePath,
+            imagePath:
+                // 'https://fastly.picsum.photos/id/9/250/250.jpg?hmac=tqDH5wEWHDN76mBIWEPzg1in6egMl49qZeguSaH9_VI',
+                book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
             height: 254.v,
             width: 175.h,
+            fit: BoxFit.fitHeight,
           ),
           SizedBox(height: 16.v),
           Text(
@@ -309,7 +316,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
           CustomElevatedButton(
             height: 24.v,
             width: 42.h,
-            text: book.imgUrl ?? 'N/A',
+            text: book.title,
             leftIcon: Container(
               margin: EdgeInsets.only(right: 4.h),
               child: CustomImageView(
@@ -326,40 +333,40 @@ class _MyBooksPageState extends State<MyBooksPage> {
     );
   }
 
-  Widget _buildRowCheckedOne(
-    BuildContext context, {
-    required String isChecked,
-    required String label,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15.h,
-        vertical: 10.v,
-      ),
-      decoration: AppDecoration.outlineOnPrimary.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder20,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomImageView(
-            imagePath: isChecked,
-            height: 18.adaptSize,
-            width: 18.adaptSize,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 4.h),
-            child: Text(
-              label,
-              style: CustomTextStyles.titleSmallAlegreyaSans.copyWith(
-                color: theme.colorScheme.primary,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildRowCheckedOne(
+  //   BuildContext context, {
+  //   required String isChecked,
+  //   required String label,
+  // }) {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(
+  //       horizontal: 15.h,
+  //       vertical: 10.v,
+  //     ),
+  //     decoration: AppDecoration.outlineOnPrimary.copyWith(
+  //       borderRadius: BorderRadiusStyle.roundedBorder20,
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         CustomImageView(
+  //           imagePath: isChecked,
+  //           height: 18.adaptSize,
+  //           width: 18.adaptSize,
+  //         ),
+  //         Padding(
+  //           padding: EdgeInsets.only(left: 4.h),
+  //           child: Text(
+  //             label,
+  //             style: CustomTextStyles.titleSmallAlegreyaSans.copyWith(
+  //               color: theme.colorScheme.primary,
+  //             ),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   /// Section Widget
   Widget _buildRowBooks(BuildContext context) {
@@ -512,30 +519,30 @@ class _MyBooksPageState extends State<MyBooksPage> {
     );
   }
 
-  /// Section Widget
-  Widget _buildUserProfile(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(AppRoutes.bookDetailsSellerScreen);
-      },
-      child: SizedBox(
-        height: 270.v,
-        child: ListView.separated(
-          padding: EdgeInsets.only(left: 8.h),
-          scrollDirection: Axis.horizontal,
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              width: 8.h,
-            );
-          },
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return const Userprofile3ItemWidget();
-          },
-        ),
-      ),
-    );
-  }
+  // /// Section Widget
+  // Widget _buildUserProfile(BuildContext context) {
+  //   return InkWell(
+  //     onTap: () {
+  //       Navigator.of(context).pushNamed(AppRoutes.bookDetailsSellerScreen);
+  //     },
+  //     child: SizedBox(
+  //       height: 270.v,
+  //       child: ListView.separated(
+  //         padding: EdgeInsets.only(left: 8.h),
+  //         scrollDirection: Axis.horizontal,
+  //         separatorBuilder: (context, index) {
+  //           return SizedBox(
+  //             width: 8.h,
+  //           );
+  //         },
+  //         itemCount: 3,
+  //         itemBuilder: (context, index) {
+  //           return const Userprofile3ItemWidget();
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {

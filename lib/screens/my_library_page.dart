@@ -6,10 +6,7 @@ import '../widgets/app_bar/custom_app_bar.dart';
 import '../widgets/custom_elevated_button.dart'; // ignore_for_file: must_be_immutable
 
 class MyLibraryPage extends StatelessWidget {
-  const MyLibraryPage({Key? key})
-      : super(
-          key: key,
-        );
+  const MyLibraryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +169,7 @@ class MyLibraryPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Expanded(
                           child: _buildRowiconsSeven(
                             context,

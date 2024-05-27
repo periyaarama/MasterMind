@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
+import 'package:master_mind/screens/crud_owner/pdf_viewer_page_mob.dart';
 import 'package:master_mind/screens/crud_owner/update_book.dart';
 import 'package:master_mind/theme/custom_button_style.dart';
 import '../../core/app_export.dart';
@@ -18,6 +19,20 @@ class BookDetailsSellerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          iconTheme: const IconThemeData(
+            color: Colors.white, // Change this color to your preference
+          ),
+        ),
+        extendBodyBehindAppBar: true,
         body: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
@@ -61,6 +76,13 @@ class BookDetailsSellerScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: "${book.numberOfPages} pages",
                     margin: EdgeInsets.symmetric(horizontal: 16.h),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PDFViewerPage(
+                          pdfUrl: book.pdfUrl!,
+                        ),
+                      ));
+                    },
                     leftIcon: Container(
                       margin: EdgeInsets.only(right: 9.h),
                       child: CustomImageView(
@@ -136,7 +158,7 @@ class BookDetailsSellerScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomImageView(
-                            imagePath: book.imgUrl ??
+                            imagePath:
                                 ImageConstant.imgGgReadOnprimarycontainer,
                             height: 18.adaptSize,
                             width: 18.adaptSize,

@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart'; // ignore: must_be_immutable
 
 class Userprofile5ItemWidget extends StatelessWidget {
-  const Userprofile5ItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  const Userprofile5ItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

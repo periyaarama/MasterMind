@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';

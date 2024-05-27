@@ -12,6 +12,7 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   ThemeHelper().changeTheme('primary');
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -33,5 +34,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// This line is added to test the github command on vs code

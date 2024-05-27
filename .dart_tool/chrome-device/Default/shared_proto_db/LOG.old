@@ -1,21 +1,6 @@
-2024/05/19-14:48:49.218 387c Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.9a3b6336\flutter_tools_chrome_device.fdd597e3\Default\shared_proto_db/MANIFEST-000001
-2024/05/19-14:48:49.219 387c Recovering log #32
-2024/05/19-14:48:49.220 387c Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.9a3b6336\flutter_tools_chrome_device.fdd597e3\Default\shared_proto_db/000032.log 
-2024/05/19-14:48:49.220 387c Delete type=0 #3
-2024/05/19-14:48:49.221 387c Delete type=0 #4
-2024/05/19-14:48:49.221 387c Delete type=0 #7
-2024/05/19-14:48:49.221 387c Delete type=2 #8
-2024/05/19-14:48:49.221 387c Delete type=0 #10
-2024/05/19-14:48:49.221 387c Delete type=2 #11
-2024/05/19-14:48:49.221 387c Delete type=0 #13
-2024/05/19-14:48:49.221 387c Delete type=2 #14
-2024/05/19-14:48:49.224 387c Delete type=0 #16
-2024/05/19-14:48:49.224 387c Delete type=2 #17
-2024/05/19-14:48:49.225 387c Delete type=0 #19
-2024/05/19-14:48:49.225 387c Delete type=2 #21
-2024/05/19-14:48:49.225 387c Delete type=0 #23
-2024/05/19-14:48:49.225 387c Delete type=2 #24
-2024/05/19-14:48:49.225 387c Delete type=0 #26
-2024/05/19-14:48:49.225 387c Delete type=2 #27
-2024/05/19-14:48:49.225 387c Delete type=0 #29
-2024/05/19-14:48:49.225 387c Delete type=2 #30
+2024/05/26-20:01:23.071 292c Reusing MANIFEST C:\Users\akarh\AppData\Local\Temp\flutter_tools.69f0c20c\flutter_tools_chrome_device.3b2074b5\Default\shared_proto_db/MANIFEST-000001
+2024/05/26-20:01:23.071 292c Recovering log #3
+2024/05/26-20:01:23.073 292c Reusing old log C:\Users\akarh\AppData\Local\Temp\flutter_tools.69f0c20c\flutter_tools_chrome_device.3b2074b5\Default\shared_proto_db/000003.log 
+2024/05/26-20:01:46.256 1f18 Level-0 table #5: started
+2024/05/26-20:01:46.273 1f18 Level-0 table #5: 138589 bytes OK
+2024/05/26-20:01:46.278 1f18 Delete type=0 #3

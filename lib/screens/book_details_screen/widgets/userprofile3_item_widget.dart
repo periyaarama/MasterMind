@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:master_mind/screens/crud_owner/models/book.dart';
 import '../../../core/app_export.dart'; // ignore: must_be_immutable
 
 class Userprofile3ItemWidget extends StatelessWidget {
-  const Userprofile3ItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  final Book book;
+  const Userprofile3ItemWidget({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +16,18 @@ class Userprofile3ItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomImageView(
-              imagePath: ImageConstant.imgE50c016fB6a841,
+              imagePath: book.imgUrl ?? ImageConstant.imgE50c016fB6a841,
               height: 184.v,
               width: 128.h,
             ),
             SizedBox(height: 7.v),
             Text(
-              "Explore your create mind to positivity",
+              book.title,
               style: theme.textTheme.labelLarge,
             ),
             SizedBox(height: 3.v),
             Text(
-              "Royryan Mercado",
+              book.author,
               style: theme.textTheme.labelMedium,
             ),
             SizedBox(height: 6.v),
@@ -46,7 +45,7 @@ class Userprofile3ItemWidget extends StatelessWidget {
                     bottom: 1.v,
                   ),
                   child: Text(
-                    "5m",
+                    "${book.numberOfPages} Pages",
                     style: theme.textTheme.labelMedium,
                   ),
                 )

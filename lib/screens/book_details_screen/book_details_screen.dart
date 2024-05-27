@@ -16,6 +16,20 @@ class BookDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          iconTheme: const IconThemeData(
+            color: Colors.white, // Change this color to your preference
+          ),
+        ),
+        extendBodyBehindAppBar: true,
         body: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
@@ -415,22 +429,22 @@ class BookDetailsScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: 17.v),
-        SizedBox(
-          height: 270.v,
-          child: ListView.separated(
-            padding: EdgeInsets.only(left: 16.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                width: 8.h,
-              );
-            },
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return const Userprofile3ItemWidget();
-            },
-          ),
-        )
+        // SizedBox(
+        //   height: 270.v,
+        //   child: ListView.separated(
+        //     padding: EdgeInsets.only(left: 16.h),
+        //     scrollDirection: Axis.horizontal,
+        //     separatorBuilder: (context, index) {
+        //       return SizedBox(
+        //         width: 8.h,
+        //       );
+        //     },
+        //     itemCount: 3,
+        //     itemBuilder: (context, index) {
+        //       return const Userprofile3ItemWidget(book: book,);
+        //     },
+        //   ),
+        // )
       ],
     );
   }

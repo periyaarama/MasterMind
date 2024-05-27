@@ -60,8 +60,8 @@ class AppRoutes {
     exploreScrolledScreen: (context) => ExploreScrolledScreen(),
     sellerDetailsScreen: (context) => SellerDetailsScreen(),
     bookDetailsSellerScreen: (context) => BookDetailsSellerScreen(),
-    accountScreen: (context) => AccountScreen(),
+    accountScreen: (context) => const AccountScreen(),
     profileDetailsScreen: (context) => const ProfileDetailsScreen(),
-    forgotPasswordScreen: (context) => const ForgotPasswordScreen()
+    forgotPasswordScreen: (context) => const ForgotPasswordScreen(),
   };
 }
