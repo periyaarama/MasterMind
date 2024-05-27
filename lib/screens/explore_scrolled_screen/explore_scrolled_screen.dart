@@ -17,13 +17,20 @@ class ExploreScrolledScreen extends StatefulWidget {
 }
 
 class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
-  TextEditingController searchController = TextEditingController();
-  String _searchQuery = '';
+  late TextEditingController searchController;
+  late String _searchQuery;
+  Future<List<DocumentSnapshot>>? _searchFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+    _searchQuery = '';
+  }
 
   Future<List<DocumentSnapshot>> searchBooks(String query) async {
     final firestore = FirebaseFirestore.instance;
 
-    // Perform queries for each searchable field
     final authorQuerySnapshot = await firestore
         .collection('books')
         .where('author', isGreaterThanOrEqualTo: query)
@@ -44,10 +51,9 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
 
     final genreQuerySnapshot = await firestore
         .collection('books')
-        .where('genre', arrayContains: query)
+        .where('genres', arrayContains: query)
         .get();
 
-    // Combine the results
     final combinedResults = [
       ...authorQuerySnapshot.docs,
       ...titleQuerySnapshot.docs,
@@ -55,21 +61,28 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
       ...genreQuerySnapshot.docs,
     ];
 
-    // Use a set to avoid duplicates
     final uniqueResults = {
       for (var doc in combinedResults) doc.id: doc,
     };
 
-    // Search through description field for partial matches
     final allBooksSnapshot = await firestore.collection('books').get();
     for (var book in allBooksSnapshot.docs) {
-      final description = book['description'] as String;
+      final description = book.data().containsKey('description')
+          ? book['description'] as String
+          : '';
       if (description.toLowerCase().contains(query.toLowerCase())) {
         uniqueResults[book.id] = book;
       }
     }
 
     return uniqueResults.values.toList();
+  }
+
+  void _initiateSearch(String query) {
+    setState(() {
+      _searchQuery = query;
+      _searchFuture = searchBooks(query);
+    });
   }
 
   @override
@@ -79,30 +92,25 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
         body: SizedBox(
-          width: SizeUtils.width,
+          width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                  left: 15.h,
-                  right: 16.h,
-                  top: 12.v,
-                ),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 12.0),
                 child: CustomSearchView(
                   controller: searchController,
                   fillColor: Colors.white,
                   hintText: "Title, author or keyword",
                   onChanged: (p0) {
-                    setState(() {
-                      _searchQuery = p0;
-                    });
+                    _initiateSearch(p0);
                   },
                 ),
               ),
-              SizedBox(height: 41.v),
+              const SizedBox(height: 41.0),
               _buildColumnTopics(context),
-              SizedBox(height: 38.v),
-              _buildSearch(context),
+              const SizedBox(height: 38.0),
+              Expanded(child: _buildSearch(context)),
             ],
           ),
         ),
@@ -110,19 +118,19 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
     );
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       title: Padding(
-        padding: EdgeInsets.only(left: 16.h),
+        padding: const EdgeInsets.only(left: 16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppbarTitle(
               text: "Explore",
             ),
-            SizedBox(height: 2.v),
+            const SizedBox(height: 2.0),
             SizedBox(
-              width: 79.h,
+              width: 79.0,
               child: Divider(
                 color: appTheme.green100,
               ),
@@ -133,28 +141,25 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildColumnTopics(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 15.h),
+      padding: const EdgeInsets.only(left: 15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Topics",
-            style: theme.textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(height: 15.v),
+          const SizedBox(height: 15.0),
           Wrap(
-            runSpacing: 8.v,
-            spacing: 8.h,
+            runSpacing: 8.0,
+            spacing: 8.0,
             children: ['Mystery', 'Fiction', 'Non-Fiction', 'Sci-Fi', 'Romance']
                 .map((genre) => InkWell(
                       child: ChipviewpersonaItemWidget(text: genre),
                       onTap: () {
-                        setState(() {
-                          searchController.text = genre;
-                        });
+                        _initiateSearch(genre);
                       },
                     ))
                 .toList(),
@@ -171,42 +176,40 @@ class _ExploreScrolledScreenState extends State<ExploreScrolledScreen> {
             '',
             style: TextStyle(color: Colors.white),
           ))
-        : Expanded(
-            child: FutureBuilder<List<DocumentSnapshot>>(
-              future: searchBooks(_searchQuery),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No books found.',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                } else {
-                  return ListView.separated(
-                    itemCount: snapshot.data!.length,
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemBuilder: (context, index) {
-                      var bookSnapshot = snapshot.data![index];
-                      var book = Book.fromSnapshot(bookSnapshot);
-                      return InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => BookDetailsScreenV(
-                                    book: book,
-                                  )));
-                        },
-                        child: Userprofile3ItemWidget(book: book),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
+        : FutureBuilder<List<DocumentSnapshot>>(
+            future: _searchFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No books found.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              } else {
+                return ListView.separated(
+                  itemCount: snapshot.data!.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    var bookSnapshot = snapshot.data![index];
+                    var book = Book.fromSnapshot(bookSnapshot);
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => BookDetailsScreenV(
+                                  book: book,
+                                )));
+                      },
+                      child: Userprofile3ItemWidget(book: book),
+                    );
+                  },
+                );
+              }
+            },
           );
   }
 }
