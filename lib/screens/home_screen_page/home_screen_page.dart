@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
-import 'package:master_mind/screens/home_screen_page/widgets/book_item_widget.dart';
 import 'package:master_mind/widgets/app_bar/appbar_profile.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
