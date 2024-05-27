@@ -15,6 +15,142 @@ class BookDetailsScreenV extends StatelessWidget {
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  Future<void> toggleFavoriteStatus(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final bookId = book.documentId;
+    final bookTitle = book.title;
+
+    if (user != null) {
+      final favsCollection = FirebaseFirestore.instance.collection('favs');
+      final docSnapshot = await favsCollection
+          .where('userId', isEqualTo: user.uid)
+          .where('bookId', isEqualTo: bookId)
+          .get();
+
+      if (docSnapshot.docs.isEmpty) {
+        // Add to favs
+        await favsCollection.add({
+          'userId': user.uid,
+          'bookId': bookId,
+          'added_date': FieldValue.serverTimestamp(),
+        });
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$bookTitle is added to Favourite List'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      } else {
+        // Remove from favs
+        await favsCollection.doc(docSnapshot.docs.first.id).delete();
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$bookTitle is removed from Favourite List'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> togglePurchaseStatus(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final bookId = book.documentId;
+
+    if (user != null) {
+      final purchaseCollection =
+          FirebaseFirestore.instance.collection('purchase');
+      final bookDoc =
+          FirebaseFirestore.instance.collection('books').doc(bookId);
+      final docSnapshot = await purchaseCollection
+          .where('userId', isEqualTo: user.uid)
+          .where('bookId', isEqualTo: bookId)
+          .get();
+
+      if (docSnapshot.docs.isEmpty) {
+        // Show confirmation dialog before adding to purchase
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Confirm Purchase'),
+              content:
+                  const Text('Are you sure you want to purchase this book?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    // Add to purchase
+                    await purchaseCollection.add({
+                      'userId': user.uid,
+                      'bookId': bookId,
+                      'purchase_date': FieldValue.serverTimestamp(),
+                    });
+
+                    // Update isPurchase field in books collection
+                    await bookDoc.update({'isPurchase': true});
+
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'The purchase for ${book.title} is Successful')));
+                  },
+                  child: const Text('Confirm'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Show confirmation dialog before removing from purchase
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Restore Purchase'),
+              content:
+                  const Text('Are you sure you want to restore this purchase?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    // Remove from purchase
+                    await purchaseCollection
+                        .doc(docSnapshot.docs.first.id)
+                        .delete();
+
+                    // Update isPurchase field in books collection
+                    await bookDoc.update({'isPurchase': false});
+
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'The purchase for ${book.title} is restored')));
+                  },
+                  child: const Text('Confirm'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -124,38 +260,45 @@ class BookDetailsScreenV extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: 55.h,
-                          ),
-                          CustomImageView(
-                            imagePath: ImageConstant.imgBiPlayFill,
-                            height: 16.adaptSize,
-                            width: 16.adaptSize,
-                            margin: EdgeInsets.only(
-                              top: 2.v,
-                              bottom: 5.v,
+                          // SizedBox(
+                          //   width: 55.h,
+                          // ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PDFViewerPage(
+                                    pdfUrl: book.pdfUrl!,
+                                  ),
+                                ));
+                              },
+                              child: Row(
+                                children: [
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgBiPlayFill,
+                                    height: 16.adaptSize,
+                                    width: 16.adaptSize,
+                                    margin: EdgeInsets.only(
+                                      top: 2.v,
+                                      bottom: 5.v,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 9.h,
+                                      top: 1.v,
+                                      bottom: 5.v,
+                                    ),
+                                    child: Text(
+                                      "Read",
+                                      style: theme.textTheme.titleSmall,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PDFViewerPage(
-                                  pdfUrl: book.pdfUrl!,
-                                ),
-                              ));
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 9.h,
-                                top: 1.v,
-                                bottom: 5.v,
-                              ),
-                              child: Text(
-                                "Read",
-                                style: theme.textTheme.titleSmall,
-                              ),
-                            ),
-                          ),
+
                           Opacity(
                             opacity: 0.3,
                             child: Padding(
@@ -170,15 +313,22 @@ class BookDetailsScreenV extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 55.h,
-                              top: 2.v,
-                              bottom: 3.v,
-                            ),
-                            child: Text(
-                              "BUY ${book.price} RM",
-                              style: theme.textTheme.titleSmall,
+                          Expanded(
+                            child: InkWell(
+                              onTap: () async {
+                                await togglePurchaseStatus(context);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 55.h,
+                                  top: 2.v,
+                                  bottom: 3.v,
+                                ),
+                                child: Text(
+                                  "BUY ${book.price} RM",
+                                  style: theme.textTheme.titleSmall,
+                                ),
+                              ),
                             ),
                           )
                         ],
@@ -232,6 +382,9 @@ class BookDetailsScreenV extends StatelessWidget {
             imagePath: ImageConstant.imgUilBookmark,
             height: 20.adaptSize,
             width: 20.adaptSize,
+            onTap: () async {
+              await toggleFavoriteStatus(context);
+            },
             margin: EdgeInsets.only(
               left: 18.h,
               bottom: 82.v,
