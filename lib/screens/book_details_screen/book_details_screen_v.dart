@@ -9,16 +9,23 @@ import 'widgets/chipviewpersona_item_widget.dart';
 import 'widgets/userprofile3_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
-class BookDetailsScreenV extends StatelessWidget {
+class BookDetailsScreenV extends StatefulWidget {
   final Book book;
-  BookDetailsScreenV({super.key, required this.book});
+  const BookDetailsScreenV({super.key, required this.book});
 
+  @override
+  State<BookDetailsScreenV> createState() => _BookDetailsScreenVState();
+}
+
+class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  bool _isBookFaved = false;
 
   Future<void> toggleFavoriteStatus(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
-    final bookId = book.documentId;
-    final bookTitle = book.title;
+    final bookId = widget.book.documentId;
+    final bookTitle = widget.book.title;
 
     if (user != null) {
       final favsCollection = FirebaseFirestore.instance.collection('favs');
@@ -34,6 +41,9 @@ class BookDetailsScreenV extends StatelessWidget {
           'bookId': bookId,
           'added_date': FieldValue.serverTimestamp(),
         });
+        setState(() {
+          _isBookFaved = true;
+        });
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -44,6 +54,9 @@ class BookDetailsScreenV extends StatelessWidget {
       } else {
         // Remove from favs
         await favsCollection.doc(docSnapshot.docs.first.id).delete();
+        setState(() {
+          _isBookFaved = false;
+        });
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -57,7 +70,7 @@ class BookDetailsScreenV extends StatelessWidget {
 
   Future<void> togglePurchaseStatus(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
-    final bookId = book.documentId;
+    final bookId = widget.book.documentId;
 
     if (user != null) {
       final purchaseCollection =
@@ -101,7 +114,7 @@ class BookDetailsScreenV extends StatelessWidget {
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                            'The purchase for ${book.title} is Successful')));
+                            'The purchase for ${widget.book.title} is Successful')));
                   },
                   child: const Text('Confirm'),
                 ),
@@ -139,7 +152,7 @@ class BookDetailsScreenV extends StatelessWidget {
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                            'The purchase for ${book.title} is restored')));
+                            'The purchase for ${widget.book.title} is restored')));
                   },
                   child: const Text('Confirm'),
                 ),
@@ -165,7 +178,7 @@ class BookDetailsScreenV extends StatelessWidget {
             },
           ),
           iconTheme: const IconThemeData(
-            color: Colors.white, // Change this color to your preference
+            color: Colors.white,
           ),
         ),
         extendBodyBehindAppBar: true,
@@ -182,7 +195,7 @@ class BookDetailsScreenV extends StatelessWidget {
                   SizedBox(height: 21.v),
                   CustomElevatedButton(
                     height: 40.v,
-                    text: "${book.numberOfPages} pages",
+                    text: "${widget.book.numberOfPages} pages",
                     margin: EdgeInsets.symmetric(horizontal: 16.h),
                     leftIcon: Container(
                       margin: EdgeInsets.only(right: 9.h),
@@ -222,7 +235,8 @@ class BookDetailsScreenV extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           CustomImageView(
-            imagePath: book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
+            imagePath:
+                widget.book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
             height: 321.v,
             width: 390.h,
             alignment: Alignment.topCenter,
@@ -239,8 +253,8 @@ class BookDetailsScreenV extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 children: [
                   CustomImageView(
-                    imagePath:
-                        book.imgUrl ?? ImageConstant.imgE50c016fB6a84184x128,
+                    imagePath: widget.book.imgUrl ??
+                        ImageConstant.imgE50c016fB6a84184x128,
                     height: 220.v,
                     width: 153.h,
                     alignment: Alignment.bottomCenter,
@@ -268,7 +282,7 @@ class BookDetailsScreenV extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewerPage(
-                                    pdfUrl: book.pdfUrl!,
+                                    pdfUrl: widget.book.pdfUrl!,
                                   ),
                                 ));
                               },
@@ -325,7 +339,7 @@ class BookDetailsScreenV extends StatelessWidget {
                                   bottom: 3.v,
                                 ),
                                 child: Text(
-                                  "BUY ${book.price} RM",
+                                  "BUY ${widget.book.price} RM",
                                   style: theme.textTheme.titleSmall,
                                 ),
                               ),
@@ -359,7 +373,7 @@ class BookDetailsScreenV extends StatelessWidget {
                 SizedBox(
                   width: 319.h,
                   child: Text(
-                    book.title,
+                    widget.book.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleLarge,
@@ -367,19 +381,21 @@ class BookDetailsScreenV extends StatelessWidget {
                 ),
                 SizedBox(height: 10.v),
                 Text(
-                  book.author,
+                  widget.book.author,
                   style: theme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 8.v),
                 Text(
-                  book.description,
+                  widget.book.description,
                   style: theme.textTheme.titleSmall,
                 )
               ],
             ),
           ),
           CustomImageView(
-            imagePath: ImageConstant.imgUilBookmark,
+            imagePath: _isBookFaved
+                ? ImageConstant.imgUilBookmark
+                : ImageConstant.imgUilBookmarkOnprimary,
             height: 20.adaptSize,
             width: 20.adaptSize,
             onTap: () async {
@@ -411,7 +427,7 @@ class BookDetailsScreenV extends StatelessWidget {
             width: 351.h,
             margin: EdgeInsets.only(right: 6.h),
             child: Text(
-              book.description,
+              widget.book.description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleSmall,
@@ -421,7 +437,7 @@ class BookDetailsScreenV extends StatelessWidget {
           Wrap(
             runSpacing: 8.v,
             spacing: 8.h,
-            children: book.genres
+            children: widget.book.genres
                 .map((genre) => ChipviewpersonaItemWidget(text: genre))
                 .toList(),
           )
@@ -429,43 +445,6 @@ class BookDetailsScreenV extends StatelessWidget {
       ),
     );
   }
-
-  // /// Section Widget
-  // Widget _buildChaptersColumn(BuildContext context) {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 16.h),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           "56 Chapters",
-  //           style: theme.textTheme.titleLarge,
-  //         ),
-  //         SizedBox(height: 23.v),
-  //         _buildRowtwo(
-  //           context,
-  //           textValue: "01",
-  //           subTitle: "Introducion",
-  //           bookTitle: "Subscribe to unlock all 2 key ideas from book ",
-  //         ),
-  //         SizedBox(height: 26.v),
-  //         _buildRowtwo(
-  //           context,
-  //           textValue: "02",
-  //           subTitle: "Creating the ",
-  //           bookTitle: "Subscribe to unlock all 2 key ideas from book ",
-  //         ),
-  //         SizedBox(height: 26.v),
-  //         _buildRowtwo(
-  //           context,
-  //           textValue: "03",
-  //           subTitle: "Introducion",
-  //           bookTitle: "Subscribe to unlock all 2 key ideas from book ",
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
   /// Section Widget
   Widget _buildFinalSummaryColumn(BuildContext context) {
@@ -531,12 +510,12 @@ class BookDetailsScreenV extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          book.author,
+                          widget.book.author,
                           style: theme.textTheme.titleMedium,
                         ),
                         SizedBox(height: 4.v),
                         Text(
-                          book.title,
+                          widget.book.title,
                           style:
                               CustomTextStyles.labelLargeAbhayaLibreExtraBold,
                         ),
@@ -640,8 +619,8 @@ class BookDetailsScreenV extends StatelessWidget {
         SizedBox(
           height: 270.v,
           child: FutureBuilder<List<DocumentSnapshot>>(
-            future: fetchSimilarBooks(
-                book.author, book.publisher, book.genres, book.documentId),
+            future: fetchSimilarBooks(widget.book.author, widget.book.publisher,
+                widget.book.genres, widget.book.documentId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -682,75 +661,4 @@ class BookDetailsScreenV extends StatelessWidget {
       ],
     );
   }
-
-  /// Section Widget
-  // Widget _buildBottomBar(BuildContext context) {
-  //   return CustomBottomBar(
-  //     onChanged: (BottomBarEnum type) {
-  //       Navigator.pushNamed(
-  //           navigatorKey.currentContext!, getCurrentRoute(type));
-  //     },
-  //   );
-  // }
-
-  // /// Common widget
-  // Widget _buildRowtwo(
-  //   BuildContext context, {
-  //   required String textValue,
-  //   required String subTitle,
-  //   required String bookTitle,
-  // }) {
-  //   return Row(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Padding(
-  //         padding: EdgeInsets.only(bottom: 22.v),
-  //         child: Text(
-  //           textValue,
-  //           style: theme.textTheme.titleMedium!.copyWith(
-  //             color: theme.colorScheme.onError.withOpacity(1),
-  //           ),
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Padding(
-  //           padding: EdgeInsets.only(left: 16.h),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 subTitle,
-  //                 style: theme.textTheme.titleMedium!.copyWith(
-  //                   color: theme.colorScheme.onError.withOpacity(1),
-  //                 ),
-  //               ),
-  //               SizedBox(height: 4.v),
-  //               Text(
-  //                 bookTitle,
-  //                 style: theme.textTheme.titleSmall!.copyWith(
-  //                   color: theme.colorScheme.primary,
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       Padding(
-  //         padding: EdgeInsets.only(
-  //           left: 28.h,
-  //           top: 5.v,
-  //           bottom: 3.v,
-  //         ),
-  //         child: CustomIconButton(
-  //           height: 32.adaptSize,
-  //           width: 32.adaptSize,
-  //           padding: EdgeInsets.all(6.h),
-  //           child: CustomImageView(
-  //             imagePath: ImageConstant.imgUilLock,
-  //           ),
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 }
