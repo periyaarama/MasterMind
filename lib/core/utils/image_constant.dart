@@ -78,6 +78,8 @@ class ImageConstant {
   static String imgUilBookmarkOnprimary =
       '$imagePath/img_uil_bookmark_onprimary.svg';
 
+  static String imgUilBookmarkFill = '$imagePath/OOjs_UI_icon_bookmark.svg';
+
   static String imgIcons = '$imagePath/img_icons.svg';
 
   static String imgChecked = '$imagePath/img_checked.svg';
