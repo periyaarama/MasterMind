@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
 import 'package:master_mind/screens/crud_owner/pdf_viewer_page_mob.dart';
+import 'package:master_mind/screens/crud_owner/simple_pdf.dart';
 import 'package:master_mind/screens/crud_owner/update_book.dart';
 import 'package:master_mind/theme/custom_button_style.dart';
 import '../../core/app_export.dart';
