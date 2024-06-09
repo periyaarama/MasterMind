@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class PDFViewerPage extends StatelessWidget {
   final String pdfUrl;
@@ -66,14 +67,19 @@ class PDFViewWidget extends StatefulWidget {
 class _PDFViewWidgetState extends State<PDFViewWidget> {
   bool _isLoading = true;
   String? _localFilePath;
+  String? _webPdfUrl;
 
   @override
   void initState() {
     super.initState();
-    _loadPDF();
+    if (kIsWeb) {
+      _loadPDFForWeb();
+    } else {
+      _loadPDFForMobile();
+    }
   }
 
-  Future<void> _loadPDF() async {
+  Future<void> _loadPDFForMobile() async {
     try {
       final response = await http.get(Uri.parse(widget.pdfUrl));
       final documentDirectory = await getApplicationDocumentsDirectory();
@@ -95,38 +101,43 @@ class _PDFViewWidgetState extends State<PDFViewWidget> {
     }
   }
 
+  Future<void> _loadPDFForWeb() async {
+    try {
+      setState(() {
+        _webPdfUrl = widget.pdfUrl;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load PDF: $e')),
+      );
+      print('Failed to load PDF: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
-        : _localFilePath != null
-            ? PDFView(
-                filePath: _localFilePath,
-                enableSwipe: true,
-                swipeHorizontal: true,
-                autoSpacing: false,
-                pageFling: true,
-                onRender: (pages) {
-                  setState(() {});
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error loading PDF: $error')),
+        : kIsWeb
+            ? _webPdfUrl != null
+                ? SfPdfViewer.network(_webPdfUrl!)
+                : const Center(
+                    child: Text(
+                      'Failed to load PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+            : _localFilePath != null
+                ? SfPdfViewer.file(File(_localFilePath!))
+                : const Center(
+                    child: Text(
+                      'Failed to load PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   );
-                  print('Error on page : $error');
-                },
-                onPageError: (page, error) {
-                  print('Error on page $page: $error');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error on page $page: $error')),
-                  );
-                },
-              )
-            : const Center(
-                child: Text(
-                  'Failed to load PDF',
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
   }
 }

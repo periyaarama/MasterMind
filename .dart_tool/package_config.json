@@ -200,6 +200,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "device_info_plus",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/device_info_plus-9.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "device_info_plus_platform_interface",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/device_info_plus_platform_interface-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -444,6 +456,12 @@
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/image_picker_windows-0.2.1+1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "io",
@@ -728,6 +746,54 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_flutter_core-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_pdf",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_flutter_pdf-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_pdfviewer",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_flutter_pdfviewer-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_flutter_signaturepad",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_flutter_signaturepad-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_pdfviewer_macos",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_pdfviewer_macos-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_pdfviewer_platform_interface",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_pdfviewer_platform_interface-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_pdfviewer_web",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_pdfviewer_web-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "syncfusion_pdfviewer_windows",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/syncfusion_pdfviewer_windows-25.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "synchronized",
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/synchronized-3.1.0+1",
       "packageUri": "lib/",
@@ -878,6 +944,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "win32_registry",
+      "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/win32_registry-1.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "xdg_directories",
       "rootUri": "file:///C:/Users/akarh/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/xdg_directories-1.0.4",
       "packageUri": "lib/",
@@ -902,7 +974,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-05-23T14:20:13.710838Z",
+  "generated": "2024-06-09T00:48:33.369081Z",
   "generator": "pub",
   "generatorVersion": "3.4.0",
   "flutterRoot": "file:///C:/flutter/flutter",

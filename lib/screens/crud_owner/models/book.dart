@@ -30,18 +30,6 @@ class Book {
   });
 
   factory Book.fromMap(Map<String, dynamic> map, String documentId) {
-    //print errors
-    print('Title: ${map['title']}');
-    print('Author: ${map['author']}');
-    print('Description: ${map['description']}');
-    print('Publisher: ${map['publisher']}');
-    print('ISBN: ${map['isbn']}');
-    print('Owner Email: ${map['ownerEmail']}');
-    print('Image URL: ${map['imgUrl']}');
-    print('Number of Pages: ${map['numberOfPages']}');
-    print('Price: ${map['price']}');
-    print('Genres: ${map['genres']}');
-
     return Book(
       documentId: documentId,
       title: map['title'],

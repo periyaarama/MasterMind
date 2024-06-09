@@ -15,6 +15,7 @@ class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UploadPageState createState() => _UploadPageState();
 }
 
@@ -83,7 +84,6 @@ class _UploadPageState extends State<UploadPage> {
 
           TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});
           String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-          print(downloadUrl);
 
           if (fileType == 'cover') {
             setState(() {
