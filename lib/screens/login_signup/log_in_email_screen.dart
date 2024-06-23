@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
@@ -186,6 +187,9 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       controller: firstNameController,
       hintText: "First Name",
       textInputType: TextInputType.name,
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
     );
   }
 
@@ -195,6 +199,9 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       controller: secondNameController,
       hintText: "Last Name",
       textInputType: TextInputType.name,
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
     );
   }
 
@@ -204,6 +211,9 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       controller: bioController,
       textInputType: TextInputType.name,
       hintText: "Bio",
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
     );
   }
 
@@ -214,6 +224,9 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       hintText: "Contact Number",
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.phone,
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
       //obscureText: true,
     );
   }
@@ -225,6 +238,9 @@ class _LogInEmailScreenState extends State<LogInEmailScreen> {
       hintText: "username",
       //textInputAction: TextInputAction.done,
       textInputType: TextInputType.name,
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
       //obscureText: true,
     );
   }

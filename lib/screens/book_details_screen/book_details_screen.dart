@@ -4,7 +4,6 @@ import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_icon_button.dart';
 import 'widgets/chipviewpersona_item_widget.dart';
-import 'widgets/userprofile3_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
 class BookDetailsScreen extends StatelessWidget {

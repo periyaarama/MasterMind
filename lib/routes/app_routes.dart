@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/account_screen.dart';
-import 'package:master_mind/screens/login_signup/auth_page.dart';
 import 'package:master_mind/screens/book_details_screen/book_details_screen.dart';
 import 'package:master_mind/screens/book_details_seller_screen/book_details_seller_screen.dart';
 import 'package:master_mind/screens/explore_scrolled_screen/explore_scrolled_screen.dart';
-import 'package:master_mind/screens/login_signup/forgot_password_screen.dart';
 import 'package:master_mind/screens/home_screen_container_screen.dart';
+import 'package:master_mind/screens/login_signup/auth_page.dart';
+import 'package:master_mind/screens/login_signup/forgot_password_screen.dart';
 import 'package:master_mind/screens/profile_details_screen.dart';
 import 'package:master_mind/screens/seller_details_screen/seller_details_screen.dart';
+
 import '../screens/app_navigation_screen/app_navigation_screen.dart';
 import '../screens/login_signup/log_in_email_one_screen.dart';
 import '../screens/login_signup/log_in_email_screen.dart';
@@ -45,6 +46,8 @@ class AppRoutes {
   static const String bookDetailsSellerScreen = '/book_details_seller_screen';
 
   static const String accountScreen = '/account_screen';
+
+  static const String creditCardPaymentScreen = '/credit_card_payment_screen';
 
   static const String profileDetailsScreen = '/profile_details_screen';
 

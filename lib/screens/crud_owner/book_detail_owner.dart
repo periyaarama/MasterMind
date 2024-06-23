@@ -78,9 +78,11 @@ class BookDetailsSellerScreen extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 16.h),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PDFViewerPage(
-                          pdfUrl: book.pdfUrl!,
-                        ),
+                        builder: (context) {
+                          return PDFViewerPage(
+                            book: book,
+                          );
+                        },
                       ));
                     },
                     leftIcon: Container(

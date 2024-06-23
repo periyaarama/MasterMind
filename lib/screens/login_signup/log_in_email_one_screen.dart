@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
@@ -157,6 +158,9 @@ class _LogInEmailOneScreenState extends State<LogInEmailOneScreen> {
         controller: emailFieldController,
         hintText: "Email",
         textInputType: TextInputType.emailAddress,
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 49, 48, 48),
+        ),
       ),
     );
   }
@@ -172,6 +176,9 @@ class _LogInEmailOneScreenState extends State<LogInEmailOneScreen> {
         controller: passwordFieldController,
         hintText: "Password",
         textInputAction: TextInputAction.done,
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 49, 48, 48),
+        ),
         textInputType: TextInputType.visiblePassword,
         obscureText:
             !isPasswordVisible, // Toggle password visibility based on this variable

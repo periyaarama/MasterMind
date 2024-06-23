@@ -7,7 +7,7 @@ class Book {
   final String description;
   final String isbn;
   final String publisher;
-  final double price;
+  final int price;
   final int numberOfPages;
   final List<String> genres;
   final String? pdfUrl;
@@ -39,7 +39,7 @@ class Book {
       genres: List<String>.from(map['genres']),
       description: map['description'],
       numberOfPages: map['numberOfPages'],
-      price: map['price'],
+      price: (map['price'] as num).toInt(), // Convert to int
       ownerEmail: map['ownerEmail'] as String?,
       imgUrl: map['imgUrl'] as String?,
       pdfUrl: map['pdfUrl'] as String?,

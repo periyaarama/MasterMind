@@ -1,10 +1,11 @@
-import 'package:master_mind/widgets/app_bar/appbar_title.dart';
 import 'package:flutter/material.dart';
+import 'package:master_mind/widgets/app_bar/appbar_title.dart';
+
+import '../core/app_export.dart';
+import '../theme/custom_button_style.dart';
 import '../widgets/app_bar/custom_app_bar.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_form_field.dart';
-import '../theme/custom_button_style.dart';
-import '../core/app_export.dart';
 
 // ProfileDetailsScreen as a StatefulWidget for managing state
 class ProfileDetailsScreen extends StatefulWidget {
@@ -233,6 +234,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           CustomTextFormField(
             controller: firstNameController,
             hintText: firstNameController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -251,6 +255,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           CustomTextFormField(
             controller: lastNameController,
             hintText: lastNameController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -269,6 +276,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           CustomTextFormField(
             controller: userNameController,
             hintText: userNameController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -286,6 +296,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           CustomTextFormField(
             controller: bioController,
             hintText: bioController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -304,6 +317,9 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           CustomTextFormField(
             controller: contactNumberController,
             hintText: contactNumberController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),

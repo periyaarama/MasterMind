@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/app_export.dart';
 
 extension on TextStyle {
@@ -28,7 +29,7 @@ class CustomTextStyles {
       );
   static get headlineSmallAbhayaLibreExtraBoldOnPrimaryContainer =>
       theme.textTheme.headlineSmall!.abhayaLibreExtraBold.copyWith(
-        color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
+        color: theme.colorScheme.primary,
         fontWeight: FontWeight.w800,
       );
   // Label text style

@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/my_books.dart';
+import 'package:master_mind/screens/payment/credit_card_payment_premium.dart';
 import 'package:master_mind/widgets/app_bar/appbar_title.dart';
+
 import '../core/app_export.dart';
 import '../theme/custom_button_style.dart';
 //import '../widgets/app_bar/appbar_leading_image.dart';
@@ -11,8 +13,8 @@ import '../widgets/custom_bottom_bar.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_icon_button.dart';
 import '../widgets/custom_outlined_button.dart';
-import 'home_screen_page/home_screen_page.dart';
 import 'crud_owner/upload_page.dart';
+import 'home_screen_page/home_screen_page.dart';
 
 // ignore_for_file: must_be_immutable
 class AccountScreen extends StatefulWidget {
@@ -32,6 +34,46 @@ class _AccountScreenState extends State<AccountScreen> {
   final _firestoreManager = FirestoreManager();
 
   bool _isLoading = false;
+
+  Future<bool> _isUserPremium() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      return false;
+    }
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('premium')
+          .where('userid', isEqualTo: user.uid)
+          .limit(1)
+          .get();
+
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      print('Failed to check premium status: $e');
+      return false;
+    }
+  }
+
+  void _showNotPremiumAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Not a Premium Member'),
+          content:
+              Text('You need to be a premium member to access this feature.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> _deleteUserProfile() async {
     setState(() {
@@ -188,11 +230,25 @@ class _AccountScreenState extends State<AccountScreen> {
                               // Add Book button
                               height: 64.v,
                               text: "Add Book",
-                              onPressed: () {
-                                // Navigate to the page where users can upload their book
-                                // Replace 'UploadPage()' with the appropriate widget for uploading books
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const UploadPage()));
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+
+                                bool isPremium = await _isUserPremium();
+
+                                setState(() {
+                                  _isLoading = false;
+                                });
+
+                                if (isPremium) {
+                                  // Navigate to the page where users can upload their book
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UploadPage()));
+                                } else {
+                                  _showNotPremiumAlert();
+                                }
                               },
                               buttonStyle: CustomButtonStyles.fillPrimary,
                               buttonTextStyle:
@@ -201,14 +257,28 @@ class _AccountScreenState extends State<AccountScreen> {
                             SizedBox(height: 20.v), // Added space
 
                             CustomElevatedButton(
-                              // Add Book button
+                              // View My Books button
                               height: 64.v,
                               text: "View My Books",
-                              onPressed: () {
-                                // Navigate to the page where users can upload their book
-                                // Replace 'UploadPage()' with the appropriate widget for uploading books
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const MyBooksPage()));
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+
+                                bool isPremium = await _isUserPremium();
+
+                                setState(() {
+                                  _isLoading = false;
+                                });
+
+                                if (isPremium) {
+                                  // Navigate to the page where users can view their books
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MyBooksPage()));
+                                } else {
+                                  _showNotPremiumAlert();
+                                }
                               },
                               buttonStyle: CustomButtonStyles.fillPrimary,
                               buttonTextStyle:
@@ -294,10 +364,12 @@ class _AccountScreenState extends State<AccountScreen> {
         const Spacer(),
         CustomOutlinedButton(
           width: 100.h,
-          text: "My Books",
+          text: "premium",
+          decoration: BoxDecoration(color: Color.fromARGB(255, 144, 228, 147)),
           margin: EdgeInsets.symmetric(vertical: 21.v),
           onPressed: () {
-            Navigator.of(context).pushNamed(AppRoutes.sellerDetailsScreen);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => const CreditCardPaymentPremium()));
           },
         )
       ],

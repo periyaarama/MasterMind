@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -181,6 +182,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return CustomTextFormField(
       controller: nameEditTextController,
       hintText: "Name",
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
     );
   }
 
@@ -190,6 +194,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       controller: emailEditTextController,
       hintText: "Email",
       textInputType: TextInputType.emailAddress,
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
     );
   }
 
@@ -198,6 +205,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return CustomTextFormField(
       controller: passwordEditTextController,
       hintText: "Password",
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       obscureText:

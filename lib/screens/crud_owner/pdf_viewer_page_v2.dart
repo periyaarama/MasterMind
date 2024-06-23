@@ -1,20 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:http/http.dart' as http;
+import 'package:master_mind/screens/crud_owner/models/book.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:pdf/widgets.dart' as pw;
-// import 'package:pdf/pdf.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class PDFViewerPage extends StatelessWidget {
-  final String pdfUrl;
+  final Book book;
 
-  const PDFViewerPage({super.key, required this.pdfUrl});
+  const PDFViewerPage({super.key, required this.book});
 
   Future<void> _downloadPDF(BuildContext context) async {
+    String pdfUrl = book.pdfUrl!;
     final Uri url = Uri.parse(pdfUrl);
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -33,45 +32,56 @@ class PDFViewerPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.download),
+            icon: const Icon(
+              Icons.download,
+              color: Colors.white,
+            ),
             onPressed: () => _downloadPDF(context),
           ),
         ],
       ),
       extendBodyBehindAppBar: true,
       body: Center(
-        child:
-            kIsWeb ? PDFWebView(pdfUrl: pdfUrl) : PDFMobileView(pdfUrl: pdfUrl),
+        child: PDFViewWidget(pdfUrl: book.pdfUrl!),
       ),
     );
   }
 }
 
-class PDFMobileView extends StatefulWidget {
+class PDFViewWidget extends StatefulWidget {
   final String pdfUrl;
 
-  PDFMobileView({required this.pdfUrl});
+  const PDFViewWidget({super.key, required this.pdfUrl});
 
   @override
-  _PDFMobileViewState createState() => _PDFMobileViewState();
+  // ignore: library_private_types_in_public_api
+  _PDFViewWidgetState createState() => _PDFViewWidgetState();
 }
 
-class _PDFMobileViewState extends State<PDFMobileView> {
+class _PDFViewWidgetState extends State<PDFViewWidget> {
   bool _isLoading = true;
   String? _localFilePath;
+  String? _webPdfUrl;
 
   @override
   void initState() {
     super.initState();
-    _loadPDF();
+    if (kIsWeb) {
+      _loadPDFForWeb();
+    } else {
+      _loadPDFForMobile();
+    }
   }
 
-  Future<void> _loadPDF() async {
+  Future<void> _loadPDFForMobile() async {
     try {
       final response = await http.get(Uri.parse(widget.pdfUrl));
       final documentDirectory = await getApplicationDocumentsDirectory();
@@ -93,53 +103,43 @@ class _PDFMobileViewState extends State<PDFMobileView> {
     }
   }
 
+  Future<void> _loadPDFForWeb() async {
+    try {
+      setState(() {
+        _webPdfUrl = widget.pdfUrl;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load PDF: $e')),
+      );
+      print('Failed to load PDF: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
-        : _localFilePath != null
-            ? PDFView(
-                filePath: _localFilePath,
-                enableSwipe: true,
-                swipeHorizontal: true,
-                autoSpacing: false,
-                pageFling: true,
-                onRender: (pages) {
-                  setState(() {});
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error loading PDF: $error')),
+        : kIsWeb
+            ? _webPdfUrl != null
+                ? SfPdfViewer.network(_webPdfUrl!)
+                : const Center(
+                    child: Text(
+                      'Failed to load PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+            : _localFilePath != null
+                ? SfPdfViewer.file(File(_localFilePath!))
+                : const Center(
+                    child: Text(
+                      'Failed to load PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   );
-                  print('Error on page : $error');
-                },
-                onPageError: (page, error) {
-                  print('Error on page $page: $error');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error on page $page: $error')),
-                  );
-                },
-              )
-            : const Center(
-                child: Text('Failed to load PDF'),
-              );
-  }
-}
-
-class PDFWebView extends StatelessWidget {
-  final String pdfUrl;
-
-  const PDFWebView({required this.pdfUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return PdfPreview(
-      build: (format) => _generatePdf(pdfUrl),
-    );
-  }
-
-  Future<Uint8List> _generatePdf(String url) async {
-    final response = await http.get(Uri.parse(url));
-    return response.bodyBytes;
   }
 }

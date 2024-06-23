@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:master_mind/screens/crud_owner/models/book.dart';
+import 'package:master_mind/theme/custom_button_style.dart';
 import 'package:master_mind/theme/custom_text_style.dart';
 import 'package:master_mind/widgets/custom_elevated_button.dart';
 import 'package:master_mind/widgets/custom_text_form_field.dart';
-import 'package:master_mind/theme/custom_button_style.dart';
-import 'package:master_mind/screens/crud_owner/models/book.dart';
 
 class UpdatePage extends StatefulWidget {
   final Book book;
@@ -176,6 +176,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _titleController,
             hintText: _titleController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -194,6 +197,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _authorController,
             hintText: _authorController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -211,6 +217,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _isbnController,
             hintText: _isbnController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -229,6 +238,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _publisherController,
             hintText: _publisherController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -285,6 +297,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _descriptionController,
             hintText: _descriptionController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -303,6 +318,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _numberOfPagesController,
             hintText: _numberOfPagesController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -320,6 +338,9 @@ class _UpdatePageState extends State<UpdatePage> {
           CustomTextFormField(
             controller: _priceController,
             hintText: _priceController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
