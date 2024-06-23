@@ -98,120 +98,206 @@ class HomeScreenPage extends StatelessWidget {
   }
 
   Widget _buildContinueReading(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 8.h,
-        right: 24.h,
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 16.h),
-      decoration: AppDecoration.fillOnError.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder8,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgE50c016fB6a84,
-            height: 133.v,
-            width: 80.h,
-            margin: EdgeInsets.only(top: 16.v),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 15.h,
-              top: 16.v,
-              bottom: 8.v,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "The good guy",
-                  style: theme.textTheme.titleSmall,
-                ),
-                SizedBox(height: 3.v),
-                Opacity(
-                  opacity: 0.8,
-                  child: Text(
-                    "Mark mcallister",
-                    style: CustomTextStyles.labelMediumPrimary_1,
-                  ),
-                ),
-                SizedBox(height: 24.v),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 3.v,
-                        bottom: 4.v,
-                      ),
-                      child: Container(
-                        height: 4.v,
-                        width: 185.h,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(
-                            2.h,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            2.h,
-                          ),
-                          child: LinearProgressIndicator(
-                            value: 0.66,
-                            backgroundColor:
-                                theme.colorScheme.primary.withOpacity(0.2),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              theme.colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
+    return FutureBuilder<DocumentSnapshot>(
+      future: _fetchLatestReadingProgress(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || !snapshot.data!.exists) {
+          return Center(child: Text('No reading progress found.'));
+        } else {
+          var progressData = snapshot.data!.data() as Map<String, dynamic>;
+          String bookId = progressData['bookId'];
+          int currentPage = progressData['currentPage'];
+          int totalPages = progressData['numberOfPages'];
+          double progress = currentPage / totalPages;
+
+          return FutureBuilder<DocumentSnapshot>(
+            future: _fetchBookDetails(bookId),
+            builder: (context, bookSnapshot) {
+              if (bookSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (bookSnapshot.hasError) {
+                return Center(child: Text('Error: ${bookSnapshot.error}'));
+              } else if (!bookSnapshot.hasData || !bookSnapshot.data!.exists) {
+                return Center(child: Text('Book details not found.'));
+              } else {
+                var bookData =
+                    bookSnapshot.data!.data() as Map<String, dynamic>;
+                String bookTitle = bookData['title'];
+                String bookAuthor = bookData['author'];
+                String? bookCover = bookData['imgUrl'];
+
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => BookDetailsScreenV(
+                              book: Book.fromSnapshot(bookSnapshot.data!),
+                            )));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 8.h,
+                      right: 24.h,
                     ),
-                    Opacity(
-                      opacity: 0.8,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.h),
-                        child: Text(
-                          "65%",
-                          style: CustomTextStyles.labelMediumPrimary_1,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 15.v),
-                Container(
-                  height: 40.adaptSize,
-                  width: 40.adaptSize,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
-                    borderRadius: BorderRadius.circular(
-                      20.h,
+                    padding: EdgeInsets.symmetric(horizontal: 16.h),
+                    decoration: AppDecoration.fillOnError.copyWith(
+                      borderRadius: BorderRadiusStyle.roundedBorder8,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: appTheme.black900.withOpacity(0.1),
-                        spreadRadius: 2.h,
-                        blurRadius: 2.h,
-                        offset: const Offset(
-                          2,
-                          2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomImageView(
+                          imagePath: bookCover ??
+                              ImageConstant.imgE50c016fB6a84184x128,
+                          height: 133.v,
+                          width: 80.h,
+                          margin: EdgeInsets.only(top: 16.v),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 15.h,
+                            top: 16.v,
+                            bottom: 8.v,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                bookTitle,
+                                style: theme.textTheme.titleSmall,
+                              ),
+                              SizedBox(height: 3.v),
+                              Opacity(
+                                opacity: 0.8,
+                                child: Text(
+                                  bookAuthor,
+                                  style: CustomTextStyles.labelMediumPrimary_1,
+                                ),
+                              ),
+                              SizedBox(height: 24.v),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 3.v,
+                                      bottom: 4.v,
+                                    ),
+                                    child: Container(
+                                      height: 4.v,
+                                      width: 185.h,
+                                      decoration: BoxDecoration(
+                                        color: theme.colorScheme.primary
+                                            .withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(
+                                          2.h,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          2.h,
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          value: progress,
+                                          backgroundColor: theme
+                                              .colorScheme.primary
+                                              .withOpacity(0.2),
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            theme.colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Opacity(
+                                    opacity: 0.8,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 8.h),
+                                      child: Text(
+                                        "${(progress * 100).toStringAsFixed(0)}%",
+                                        style: CustomTextStyles
+                                            .labelMediumPrimary_1,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 15.v),
+                              Container(
+                                height: 40.adaptSize,
+                                width: 40.adaptSize,
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.onPrimaryContainer
+                                      .withOpacity(1),
+                                  borderRadius: BorderRadius.circular(
+                                    20.h,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: appTheme.black900.withOpacity(0.1),
+                                      spreadRadius: 2.h,
+                                      blurRadius: 2.h,
+                                      offset: const Offset(
+                                        2,
+                                        2,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                child: CustomImageView(
+                                  imagePath: ImageConstant.imgUilPlay,
+                                  color: appTheme.green100,
+                                  height: 133.v,
+                                  width: 80.h,
+                                  margin: EdgeInsets.only(
+                                      top: 8.v,
+                                      bottom: 8.v,
+                                      left: 10.v,
+                                      right: 8.v),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
+                );
+              }
+            },
+          );
+        }
+      },
     );
+  }
+
+  Future<DocumentSnapshot> _fetchLatestReadingProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('book_progress')
+          .where('userId', isEqualTo: user.uid)
+          .orderBy('lastUpdate', descending: true)
+          .limit(1)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first;
+      }
+    }
+    return Future.error('No reading progress found');
+  }
+
+  Future<DocumentSnapshot> _fetchBookDetails(String bookId) async {
+    return await FirebaseFirestore.instance
+        .collection('books')
+        .doc(bookId)
+        .get();
   }
 
   Widget _buildGenreSection(BuildContext context, String genre) {

@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:master_mind/theme/custom_button_style.dart';
 import 'package:master_mind/theme/custom_text_style.dart';
 import 'package:master_mind/widgets/custom_elevated_button.dart';
-import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
-import 'dart:io';
-
 import 'package:master_mind/widgets/custom_text_form_field.dart';
 
 class UploadPage extends StatefulWidget {
@@ -250,6 +250,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _titleController,
             hintText: _titleController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -268,6 +271,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _authorController,
             hintText: _authorController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -285,6 +291,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _isbnController,
             hintText: _isbnController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -303,6 +312,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _publisherController,
             hintText: _publisherController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -359,6 +371,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _descriptionController,
             hintText: _descriptionController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -377,6 +392,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _numberOfPagesController,
             hintText: _numberOfPagesController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),
@@ -394,6 +412,9 @@ class _UploadPageState extends State<UploadPage> {
           CustomTextFormField(
             controller: _priceController,
             hintText: _priceController.text,
+            textStyle: const TextStyle(
+              color: Color.fromARGB(255, 49, 48, 48),
+            ),
           ),
         ],
       ),

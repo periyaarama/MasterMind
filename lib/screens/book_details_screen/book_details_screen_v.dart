@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
 import 'package:master_mind/screens/crud_owner/pdf_viewer_page_mob.dart';
+import 'package:master_mind/screens/payment/credit_card_payment_book.dart';
+
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/custom_elevated_button.dart';
-// import '../../widgets/custom_icon_button.dart';
 import 'widgets/chipviewpersona_item_widget.dart';
 import 'widgets/userprofile3_item_widget.dart';
 
@@ -68,6 +69,25 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
     }
   }
 
+  Future<void> _checkFavoriteStatus() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final bookId = widget.book.documentId;
+
+    if (user != null) {
+      final favsCollection = FirebaseFirestore.instance.collection('favs');
+      final docSnapshot = await favsCollection
+          .where('userId', isEqualTo: user.uid)
+          .where('bookId', isEqualTo: bookId)
+          .get();
+
+      if (docSnapshot.docs.isNotEmpty) {
+        setState(() {
+          _isBookFaved = true;
+        });
+      }
+    }
+  }
+
   Future<void> togglePurchaseStatus(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
     final bookId = widget.book.documentId;
@@ -84,48 +104,50 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
 
       if (docSnapshot.docs.isEmpty) {
         // Show confirmation dialog before adding to purchase
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Confirm Purchase'),
-              content:
-                  const Text('Are you sure you want to purchase this book?'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    // Add to purchase
-                    await purchaseCollection.add({
-                      'userId': user.uid,
-                      'bookId': bookId,
-                      'purchase_date': FieldValue.serverTimestamp(),
-                    });
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (ctx) => CreditCardPaymentBook(
+                  book: widget.book,
+                )));
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: const Text('Confirm Purchase'),
+        //       content:
+        //           const Text('Are you sure you want to purchase this book?'),
+        //       actions: [
+        //         TextButton(
+        //           onPressed: () {
+        //             Navigator.of(context).pop();
+        //           },
+        //           child: const Text('Cancel'),
+        //         ),
+        //         TextButton(
+        //           onPressed: () async {
+        //             // Add to purchase
+        //             await purchaseCollection.add({
+        //               'userId': user.uid,
+        //               'bookId': bookId,
+        //               'purchase_date': FieldValue.serverTimestamp(),
+        //             });
 
-                    // Update isPurchase field in books collection
-                    await bookDoc.update({'isPurchase': true});
+        //             // Update isPurchase field in books collection
+        //             await bookDoc.update({'isPurchase': true});
 
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            'The purchase for ${widget.book.title} is Successful')));
-                  },
-                  child: const Text('Confirm'),
-                ),
-              ],
-            );
-          },
-        );
+        //             Navigator.of(context).pop();
+        //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //                 content: Text(
+        //                     'The purchase for ${widget.book.title} is Successful')));
+        //           },
+        //           child: const Text('Confirm'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       } else {
         // Show confirmation dialog before removing from purchase
         showDialog(
-          // ignore: use_build_context_synchronously
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -210,8 +232,6 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
                   ),
                   SizedBox(height: 27.v),
                   _buildAboutThisColumn(context),
-                  // SizedBox(height: 49.v),
-                  // _buildChaptersColumn(context),
                   SizedBox(height: 26.v),
                   _buildFinalSummaryColumn(context),
                   SizedBox(height: 30.v),
@@ -221,12 +241,10 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
             ),
           ),
         ),
-        // bottomNavigationBar: _buildBottomBar(context),
       ),
     );
   }
 
-  /// Section Widget
   Widget _buildImageStack(BuildContext context) {
     return SizedBox(
       height: 333.v,
@@ -274,17 +292,51 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // SizedBox(
-                          //   width: 55.h,
-                          // ),
                           Expanded(
                             child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PDFViewerPage(
-                                    pdfUrl: widget.book.pdfUrl!,
-                                  ),
-                                ));
+                              onTap: () async {
+                                final user = FirebaseAuth.instance.currentUser;
+                                if (user != null) {
+                                  final purchaseCollection = FirebaseFirestore
+                                      .instance
+                                      .collection('purchase');
+                                  final docSnapshot = await purchaseCollection
+                                      .where('userId', isEqualTo: user.uid)
+                                      .where('bookId',
+                                          isEqualTo: widget.book.documentId)
+                                      .get();
+
+                                  if (docSnapshot.docs.isNotEmpty) {
+                                    final progressSnapshot = await FirebaseFirestore
+                                        .instance
+                                        .collection('book_progress')
+                                        .doc(
+                                            '${user.uid}-${widget.book.documentId}')
+                                        .get();
+                                    int currentPage = 1;
+                                    if (progressSnapshot.exists) {
+                                      currentPage =
+                                          progressSnapshot['currentPage'] ?? 1;
+                                    }
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return PDFViewerPage(
+                                            book: widget.book,
+                                            currentPage: currentPage,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'The book is not purchased yet. Please purchase it to read.'),
+                                      ),
+                                    );
+                                  }
+                                }
                               },
                               child: Row(
                                 children: [
@@ -312,7 +364,6 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
                               ),
                             ),
                           ),
-
                           Opacity(
                             opacity: 0.3,
                             child: Padding(
@@ -358,7 +409,6 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
     );
   }
 
-  /// Section Widget
   Widget _buildProjectRow(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
@@ -411,7 +461,6 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
     );
   }
 
-  /// Section Widget
   Widget _buildAboutThisColumn(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
@@ -446,38 +495,11 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
     );
   }
 
-  /// Section Widget
   Widget _buildFinalSummaryColumn(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
       child: Column(
         children: [
-          // Padding(
-          //   padding: EdgeInsets.only(left: 16.h),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Padding(
-          //         padding: EdgeInsets.only(
-          //           top: 7.v,
-          //           bottom: 5.v,
-          //         ),
-          //         child: Text(
-          //           "Final Summary",
-          //           style: CustomTextStyles.titleMediumPrimary,
-          //         ),
-          //       ),
-          //       CustomIconButton(
-          //         height: 32.adaptSize,
-          //         width: 32.adaptSize,
-          //         padding: EdgeInsets.all(6.h),
-          //         child: CustomImageView(
-          //           imagePath: ImageConstant.imgUilLock,
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           SizedBox(height: 22.v),
           InkWell(
             onTap: () {
@@ -544,43 +566,30 @@ class _BookDetailsScreenVState extends State<BookDetailsScreenV> {
 
   Future<List<DocumentSnapshot>> fetchSimilarBooks(String author,
       String publication, List<String> genres, String currentBookId) async {
-    // Query for books by the same author
     final authorQuerySnapshot = await FirebaseFirestore.instance
         .collection('books')
         .where('author', isEqualTo: author)
         .get();
-
-    // Query for books by the same publication
     final publicationQuerySnapshot = await FirebaseFirestore.instance
         .collection('books')
         .where('publication', isEqualTo: publication)
         .get();
-
-    // Query for books in the same genres
     final genresQuerySnapshot = await FirebaseFirestore.instance
         .collection('books')
         .where('genres', arrayContainsAny: genres)
         .get();
-
-    // Combine the results
     final combinedResults = [
       ...authorQuerySnapshot.docs,
       ...publicationQuerySnapshot.docs,
       ...genresQuerySnapshot.docs,
     ];
-
-    // Use a set to avoid duplicates
     final uniqueResults = {
       for (var doc in combinedResults) doc.id: doc,
     };
-
-    // Remove the current book from the results
     uniqueResults.remove(currentBookId);
-
     return uniqueResults.values.toList();
   }
 
-  /// Section Widget
   Widget _buildSimilarBooksColumn(BuildContext context) {
     return Column(
       children: [

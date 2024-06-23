@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -126,6 +127,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return CustomTextFormField(
       controller: emailEditTextController,
       hintText: "Email",
+      textStyle: const TextStyle(
+        color: Color.fromARGB(255, 49, 48, 48),
+      ),
       textInputType: TextInputType.emailAddress,
       validator: (value) {
         if (value == null || value.isEmpty) {

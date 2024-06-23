@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-// import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
-import '../../core/app_export.dart';
-import '../../widgets/custom_bottom_bar.dart';
-// import '../../widgets/custom_icon_button.dart';
-import '../home_screen_page/home_screen_page.dart';
 // import 'package:flutter/material.dart';
 import 'package:master_mind/screens/crud_owner/book_detail_owner.dart';
 import 'package:master_mind/screens/crud_owner/models/book.dart';
+
+// import 'package:master_mind/screens/book_details_screen/widgets/userprofile3_item_widget.dart';
+import '../../core/app_export.dart';
 // import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
+import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
+// import '../../widgets/custom_icon_button.dart';
+import '../home_screen_page/home_screen_page.dart';
 
 // ignore_for_file: must_be_immutable
 class MyBooksPage extends StatefulWidget {
@@ -134,7 +135,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
                                   _buildRowBooks(context),
                                   SizedBox(height: 48.v),
                                   _buildRowBooks1(context),
-                                  SizedBox(height: 17.v),
+                                  SizedBox(height: 37.v),
                                   // _buildUserProfile(context),
                                   // _buildRow(context),
                                   // SizedBox(height: 24.v),
@@ -239,7 +240,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
     for (var i = 0; i < books.length; i += 2) {
       widgets.add(
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 3.h, vertical: 16.v),
+          padding: EdgeInsets.symmetric(horizontal: 3.h, vertical: 24.v),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -280,7 +281,9 @@ class _MyBooksPageState extends State<MyBooksPage> {
 
   Widget _buildBookItem(BuildContext context, Book book) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 4.h,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -316,7 +319,7 @@ class _MyBooksPageState extends State<MyBooksPage> {
           CustomElevatedButton(
             height: 24.v,
             width: 42.h,
-            text: book.title,
+            text: '',
             leftIcon: Container(
               margin: EdgeInsets.only(right: 4.h),
               child: CustomImageView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/app_export.dart';
 import 'base_button.dart';
 
@@ -42,7 +43,13 @@ class CustomOutlinedButton extends BaseButton {
         margin: margin,
         decoration: decoration,
         child: OutlinedButton(
-          style: buttonStyle,
+          style: buttonStyle?.copyWith(
+            backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                return decoration?.color ?? Colors.transparent;
+              },
+            ),
+          ),
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
